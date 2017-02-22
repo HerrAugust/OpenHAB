@@ -1,6 +1,7 @@
 *.class
 *.classpath
 *.project
+*.settings
 
 # Log file
 *.log
@@ -21,11 +22,17 @@ High-level Goals GUI/*
 Sensor/*
 !Sensor/src
 
-MonitoringAnalysis/*
-!MonitoringAnalysis/src
+Monitoring/*
+!Monitoring/src
+
+Analysis/*
+!Analysis/src
 
 OpenHAB/*
 !OpenHAB/configurations
 
 Execution/*
 !Execution/src
+
+Orchestrator/*
+!Orchestrator/src

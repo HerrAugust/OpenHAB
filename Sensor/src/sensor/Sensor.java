@@ -1027,7 +1027,7 @@ public class Sensor extends javax.swing.JFrame {
         k.publishData();
         Thread.sleep(1000);
         for (;;) {
-            Thread.sleep(3000);
+            Thread.sleep(4000);
             k.Actuator();
         }
 
@@ -1381,7 +1381,7 @@ public class Sensor extends javax.swing.JFrame {
     }
 
     public String readFile() throws FileNotFoundException, IOException {
-        BufferedReader br = new BufferedReader(new FileReader("C:/Users/agost/Documents/Ruscio/OpenHAB/OpenHAB/execute.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.home") + "/Documents/Ruscio/OpenHAB/OpenHAB/execute.txt"));
         try {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();

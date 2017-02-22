@@ -23,6 +23,7 @@ Number Windows_SleepingRoom 	{mqtt="<[mybroker:home/sleepingroom/windows:state:d
 Number Windows_Bathroom 		{mqtt="<[mybroker:home/bathroom/windows:state:default]"}
 Switch LivingRoom_Windows_l1	{mqtt="<[mybroker:home/livingroom/windows/1:state:default]"}
 Switch LivingRoom_Windows_l2	{mqtt="<[mybroker:home/livingroom/windows/2:state:default]"}
+Switch LivingRoom_Windows_l3	{mqtt="<[mybroker:home/livingroom/windows/3:state:default]"}
 Switch Kitchen_Windows_l1		{mqtt="<[mybroker:home/kitchen/windows/1:state:default]"}
 Switch Kitchen_Windows_l2		{mqtt="<[mybroker:home/kitchen/windows/2:state:default]"}
 Switch SleepingRoom_Windows_l1	{mqtt="<[mybroker:home/sleepingroom/windows/1:state:default]"}
