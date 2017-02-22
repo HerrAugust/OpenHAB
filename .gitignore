@@ -21,8 +21,11 @@ High-level Goals GUI/*
 Sensor/*
 !Sensor/src
 
-MonitoringAnalysis/*
-!MonitoringAnalysis/src
+Monitoring/*
+!Monitoring/src
+
+Analysis/*
+!Analysis/src
 
 OpenHAB/*
 !OpenHAB/configurations
