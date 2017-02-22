@@ -1,0 +1,82 @@
+sitemap default label="Project: Smart-Home"
+{
+    Frame label="Overview" {
+        Text item=Electricity_Consumption label="Electricity consumption (last month) [%d MWatt]" icon="garden"
+        Text item=Humidity label="Humidity [%d%%]" icon="garden" 
+        Text item=LightsOn label="Lights on [%d in 8]" icon="light-on"
+        Text item=Temperature label="Temperature (avg.) [%.1f °C]" icon="temperature-hot" valuecolor=[>25="orange",>15="green",<=15="blue"] 
+        Text item=Windows_Number label="Open windows (total) [%d out of 6]" icon="contact-ajar"
+    }
+    
+    Frame label="Living room" { //for each room, heating and windows can be shown
+    	Text item=Windows_LivingRoom label="Open windows [%d in 2]" icon="contact-air"
+        Text item=Lights_LivingRoom label="Lights on [%d in 3]" icon="light-on"
+        //Text item=Temperature_LivingRoom label="Temperature [%.1f °C]" icon="temperature-hot"
+        Text item=People_LivingRoom label="People [%d]" icon="boy1"
+        Group item=Parameters_LivingRoom label="Change parameters" icon="settings" {			
+			Frame label="Windows" {
+				Switch item=LivingRoom_Windows_l1 label="Balcony" icon="contact-ajar"
+				Switch item=LivingRoom_Windows_l2 label="Window" icon="contact-ajar"
+			}
+			
+			Frame label="Lights" {
+				Switch item=LivingRoom_Lights_l1 label="On table 1" icon="light-on"
+				Switch item=LivingRoom_Lights_l2 label="On table 2" icon="light-on"
+				Switch item=LivingRoom_Lights_l3 label="On sofa" icon="light-on"
+			}
+		}
+    }
+    
+    Frame label="Kitchen" { //for each room, heating and windows can be shown
+    	Text item=Windows_Kitchen label="Open windows [%d in 2]" icon="contact-air"
+        Text item=Lights_Kitchen label="Lights on [%d in 2]" icon="light-on"
+        //Text item=Temperature_Kitchen label="Temperature [%.1f °C]" icon="temperature-hot"
+        Text item=People_KitchenRoom label="People [%d]" icon="boy1"
+        Group item=Parameters_Kitchen label="Change parameters" icon="settings" {			
+			Frame label="Windows" {
+				Switch item=Kitchen_Windows_l1 label="Lateral window" icon="contact-ajar"
+				Switch item=Kitchen_Windows_l2 label="Open window" icon="contact-ajar"
+			}
+			
+			Frame label="Lights" {
+				Switch item=Kitchen_Lights_l1 label="On table 1" icon="light-on"
+				Switch item=Kitchen_Lights_l2 label="On wall" icon="light-on"
+			}
+		}
+    }
+    
+    Frame label="Sleeping room" { //for each room, heating and windows can be shown
+    	Text item=Windows_SleepingRoom label="Open windows [%d in 1]" icon="contact-air"
+        Text item=Lights_SleepingRoom label="Lights on [%d in 2]" icon="light-on"
+        //Text item=Temperature_SleepingRoom label="Temperature [%.1f °C]" icon="temperature-hot"
+        Text item=People_SleepingRoom label="People [%d]" icon="boy1"
+        Group item=Parameters_SleepingRoom label="Change parameters" icon="settings" {
+			
+			Frame label="Windows" {
+				Switch item=SleepingRoom_Windows_l1 label="Balcony" icon="contact-ajar"
+			}
+			
+			Frame label="Lights" {
+				Switch item=SleepingRoom_Lights_l1 label="Lamp left" icon="light-on"
+				Switch item=SleepingRoom_Lights_l2 label="Lamp right" icon="light-on"
+			}
+		}
+    }
+    
+    Frame label="Bathroom" { //for each room, heating and windows can be shown
+    	Text item=Windows_Bathroom label="Open windows [%d in 1]" icon="contact-air"
+        Text item=Lights_Bathroom label="Lights on [%d in 1]" icon="light-on"
+        //Text item=Temperature_Bathroom label="Temperature [%.1f °C]" icon="temperature-hot"
+        Text item=People_Bathroom label="People [%d]" icon="boy1"
+        Group item=Parameters_Bathroom label="Change parameters" icon="settings" {
+			
+			Frame label="Windows" {
+				Switch item=Bathroom_Windows_l1 label="Window" icon="contact-ajar"
+			}
+			
+			Frame label="Lights" {
+				Switch item=Bathroom_Lights_l1 label="Lamp" icon="light-on"
+			}
+		}
+    }
+}

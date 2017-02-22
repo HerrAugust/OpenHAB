@@ -1,0 +1,41 @@
+Number Electricity_Consumption 	{mqtt="<[mybroker:home/general/electricity:state:default]"}
+Number Humidity 				{mqtt="<[mybroker:home/general/humidity:state:default]"}
+Number Temperature				{mqtt="<[mybroker:home/general/temperature:state:default]"}
+ 
+Number LightsOn					{mqtt="<[mybroker:home/general/lights:state:default]"}
+Number Lights_LivingRoom		{mqtt="<[mybroker:home/livingroom/lights:state:default]"}
+Number Lights_Kitchen 			{mqtt="<[mybroker:home/kitchen/lights:state:default]"}
+Number Lights_SleepingRoom 		{mqtt="<[mybroker:home/sleepingroom/lights:state:default]"}
+Number Lights_Bathroom 			{mqtt="<[mybroker:home/bathroom/lights:state:default]"}
+Switch LivingRoom_Lights_l1		{mqtt="<[mybroker:home/livingroom/lights/1:state:default]"}
+Switch LivingRoom_Lights_l2		{mqtt="<[mybroker:home/livingroom/lights/2:state:default]"}
+Switch LivingRoom_Lights_l3		{mqtt="<[mybroker:home/livingroom/lights/3:state:default]"}
+Switch Kitchen_Lights_l1		{mqtt="<[mybroker:home/kitchen/lights/1:state:default]"}
+Switch Kitchen_Lights_l2		{mqtt="<[mybroker:home/kitchen/lights/2:state:default]"}
+Switch SleepingRoom_Lights_l1	{mqtt="<[mybroker:home/sleepingroom/lights/1:state:default]"}
+Switch SleepingRoom_Lights_l2	{mqtt="<[mybroker:home/sleepingroom/lights/2:state:default]"}
+Switch Bathroom_Lights_l1		{mqtt="<[mybroker:home/bathroom/lights/1:state:default]"}
+
+Number Windows_Number 			{mqtt="<[mybroker:home/general/windows:state:default]"}
+Number Windows_LivingRoom		{mqtt="<[mybroker:home/livingroom/windows:state:default]"}
+Number Windows_Kitchen 			{mqtt="<[mybroker:home/kitchen/windows:state:default]"}
+Number Windows_SleepingRoom 	{mqtt="<[mybroker:home/sleepingroom/windows:state:default]"}
+Number Windows_Bathroom 		{mqtt="<[mybroker:home/bathroom/windows:state:default]"}
+Switch LivingRoom_Windows_l1	{mqtt="<[mybroker:home/livingroom/windows/1:state:default]"}
+Switch LivingRoom_Windows_l2	{mqtt="<[mybroker:home/livingroom/windows/2:state:default]"}
+Switch Kitchen_Windows_l1		{mqtt="<[mybroker:home/kitchen/windows/1:state:default]"}
+Switch Kitchen_Windows_l2		{mqtt="<[mybroker:home/kitchen/windows/2:state:default]"}
+Switch SleepingRoom_Windows_l1	{mqtt="<[mybroker:home/sleepingroom/windows/1:state:default]"}
+Switch Bathroom_Windows_l1		{mqtt="<[mybroker:home/bathroom/windows/1:state:default]"}
+
+Number Temperature_LivingRoom	{mqtt="<[mybroker:home/livingroom/temperature:state:default]"}
+Number Temperature_Kitchen		{mqtt="<[mybroker:home/kitchen/temperature:state:default]"}
+Number Temperature_SleepingRoom	{mqtt="<[mybroker:home/sleepingroom/temperature:state:default]"}
+Number Temperature_Bathroom		{mqtt="<[mybroker:home/bathroom/temperature:state:default]"}
+
+Number People_LivingRoom		{mqtt="<[mybroker:home/livingroom/people:state:default]"}
+Number People_Kitchen			{mqtt="<[mybroker:home/kitchen/people:state:default]"}
+Number People_SleepingRoom		{mqtt="<[mybroker:home/sleepingroom/people:state:default]"}
+Number People_Bathroom			{mqtt="<[mybroker:home/bathroom/people:state:default]"}
+
+Number LivingRoom_Heating_Temperature {mqtt="<[mybroker:home/livingroom/temperature:state:default]"}

@@ -1,4 +1,6 @@
 *.class
+*.classpath
+*.project
 
 # Log file
 *.log
@@ -23,9 +25,8 @@ MonitoringAnalysis/*
 !MonitoringAnalysis/src
 
 OpenHAB/*
-!OpenHAB/configurations/items
-!OpenHAB/configurations/rules
-!OpenHAB/configurations/sitemaps
+!OpenHAB/configurations
+
 
 Execution/*
 !Execution/src   # except src
