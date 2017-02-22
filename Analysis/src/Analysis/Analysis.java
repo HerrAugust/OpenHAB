@@ -9,12 +9,11 @@ import java.util.List;
 
 import Storage.File;
 
-public class Analysis implements Runnable{
+public class Analysis {
 
 	private final static String goalsfile = System.getProperty("user.home") + "\\Documents\\Ruscio\\OpenHAB\\OpenHAB\\high_level_goals.conf"; //read only
 	
-	@Override
-	public void run() {
+	public static void main(String[] args) {
 		String towritesym = "";
 		File goal = new File(goalsfile);
 		
