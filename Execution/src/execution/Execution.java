@@ -8,6 +8,9 @@ package execution;
 import Logger.Logger;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import storage.Storage;
 
 /**
  *
@@ -17,94 +20,188 @@ public class Execution {
 
     /**
      * @param args the command line arguments
+     * @throws org.eclipse.paho.client.mqttv3.MqttException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MqttException, InterruptedException {
         // TODO code application logic here
-        if (args.length == 0) {
-            return;
-        }
 
-        try {
-            PrintWriter writer = new PrintWriter("execute.txt", "UTF-8");
-            switch (args[0]) {
-                case "close lights": //used
-                    if (args.length == 1) {
-                        new Logger("Execution").writeln("[ERROR] Light to be turned off not set. Nothing to do...");
-                        return;
-                    }
-                    writer.println("close lights: " + args[1] + "");
-                    //Execution.closeLights_room(args[1]);
-                    break;
-                case "close light": //used
-                    if (args.length == 1) {
-                        new Logger("Execution").writeln("[ERROR] Light to be turned off not set. Nothing to do...");
-                        return;
-                    }
-                    writer.println("close light: " + args[1] + "");
-                    //Execution.closeLight(args[1]);
-                    break;
-                case "open light": //used
-                    if (args.length == 1) {
-                        new Logger("Execution").writeln("[ERROR] Light to be turned on not set. Nothing to do...");
-                        return;
-                    }
-                    writer.println("open light: " + args[1] + "");
-                    //Execution.openLight(args[1]);
-                    break;
-                case "close windows": //used
-                    writer.println("windows: " + 0 + "");
-                    //Execution.closeWindows();
-                    break;
-                case "close window": //used
-                    if (args.length == 1) {
-                        new Logger("Execution").writeln("[ERROR] Window to be closed not set. Nothing to do...");
-                        return;
-                    }
-                    writer.println("close window: " + args[1] + "");
-                    //Execution.closeWindow(args[1]);
-                    break;
-                case "open window": //used
-                    if (args.length == 1) {
-                        new Logger("Execution").writeln("[ERROR] Window to be open not set. Nothing to do...");
-                        return;
-                    }
-                    writer.println("open window: " + args[1] + "");
-                    //Execution.openWindow(args[1]);
-                    break;
-                case "increase temperature": //used
-                    if (args.length == 1) {
-                        new Logger("Execution").writeln("[ERROR] New temperature not set. Nothing to do...");
-                        return;
-                    }
-                    float threshold = Float.parseFloat(args[1]);
-                    writer.println("increase temperature: " + threshold + "");
-                    //Execution.increaseTemperature(threshold);
-                    break;
-                case "decrease temperature": //used
-                    if (args.length == 1) {
-                        new Logger("Execution").writeln("[ERROR] New temperature not set. Nothing to do...");
-                        return;
-                    }
-                    float threshold2 = Float.parseFloat(args[1]);
-                    writer.println("decrease temperature: " + threshold2 + "");
-                    //Execution.increaseTemperature(threshold);
-                    break;
+        String closeLightsArea = "VOID";
+        String closeLight = "VOID";
+        String openLight = "VOID";
+        String closeWindow = "VOID";
+        String openWindow = "VOID";
+        String windows = "VOID";
+        String temperatura = "VOID";
 
-                case "open windows": //used
-                    for (int i = 0; i < 7; i++) {
-                        writer.println("windows: " + 1 + "");
-                        //Execution.openWindow(i);
+        for (;;) {
+            Thread.sleep(2000);
+            Storage s = new Storage();
+            List<Object[]> decision = s.readMany("decision", new String[]{"id", "value"}, "ORDER BY id DESC LIMIT 5");
+            if (!decision.isEmpty()) {
+                Storage k = new Storage();
+                k.deleteAll("decision");
+
+                for (int j = 0; j < decision.size(); j++) {
+                    String sym = (String) decision.get(j)[1];
+                    String[] parts = sym.split(": ");
+
+                    switch (parts[0].trim()) {
+                        case "close window":
+                            switch (parts[1].trim()) {
+                                case "LivingRoom_Windows_l1":
+                                    closeWindow = "LivingRoom_Windows_l1";
+                                    break;
+                                case "LivingRoom_Windows_l2":
+                                    closeWindow = "LivingRoom_Windows_l2";
+                                    break;
+                                case "LivingRoom_Windows_l3":
+                                    closeWindow = "LivingRoom_Windows_l3";
+                                    break;
+                                case "Kitchen_Windows_l1":
+                                    closeWindow = "Kitchen_Windows_l1";
+                                    break;
+                                case "Kitchen_Windows_l2":
+                                    closeWindow = "Kitchen_Windows_l2";
+                                    break;
+                                case "SleepingRoom_Windows_l1":
+                                    closeWindow = "SleepingRoom_Windows_l1";
+                                    break;
+                                case "Bathroom_Windows_l1":
+                                    closeWindow = "Bathroom_Windows_l1";
+                                    break;
+
+                            }
+                            break;
+                        case "open window":
+                            switch (parts[1].trim()) {
+                                case "LivingRoom_Windows_l1":
+                                    openWindow = "LivingRoom_Windows_l1";
+                                    break;
+                                case "LivingRoom_Windows_l2":
+                                    openWindow = "LivingRoom_Windows_l2";
+                                    break;
+                                case "LivingRoom_Windows_l3":
+                                    openWindow = "LivingRoom_Windows_l3";
+                                    break;
+                                case "Kitchen_Windows_l1":
+                                    openWindow = "Kitchen_Windows_l1";
+                                    break;
+                                case "Kitchen_Windows_l2":
+                                    openWindow = "Kitchen_Windows_l2";
+                                    break;
+                                case "SleepingRoom_Windows_l1":
+                                    openWindow = "SleepingRoom_Windows_l1";
+                                    break;
+                                case "Bathroom_Windows_l1":
+                                    openWindow = "Bathroom_Windows_l1";
+                                    break;
+                            }
+                            break;
+                        case "open light":
+                            switch (parts[1].trim()) {
+                                case "LivingRoom_Lights_l1":
+                                    openLight = "LivingRoom_Lights_l1";
+                                    break;
+                                case "LivingRoom_Lights_l2":
+                                    openLight = "LivingRoom_Lights_l2";
+                                    break;
+                                case "LivingRoom_Lights_l3":
+                                    openLight = "LivingRoom_Lights_l3";
+                                    break;
+                                case "Kitchen_Lights_l1":
+                                    openLight = "Kitchen_Lights_l1";
+                                    break;
+                                case "Kitchen_Lights_l2":
+                                    openLight = "Kitchen_Lights_l2";
+                                    break;
+                                case "SleepingRoom_Lights_l1":
+                                    openLight = "SleepingRoom_Lights_l1";
+                                    break;
+                                case "SleepingRoom_Lights_l2":
+                                    openLight = "SleepingRoom_Lights_l2";
+                                    break;
+                                case "Bathroom_Lights_l1":
+                                    openLight = "Bathroom_Lights_l1";
+                                    break;
+                            }
+
+                            break;
+                        case "close light":
+
+                            switch (parts[1].trim()) {
+                                case "LivingRoom_Lights_l1":
+                                    closeLight = "LivingRoom_Lights_l1";
+                                    break;
+                                case "LivingRoom_Lights_l2":
+                                    closeLight = "LivingRoom_Lights_l2";
+                                    break;
+                                case "LivingRoom_Lights_l3":
+                                    closeLight = "LivingRoom_Lights_l3";
+                                    break;
+                                case "Kitchen_Lights_l1":
+                                    closeLight = "Kitchen_Lights_l1";
+                                    break;
+                                case "Kitchen_Lights_l2":
+                                    closeLight = "Kitchen_Lights_l2";
+                                    break;
+                                case "SleepingRoom_Lights_l1":
+                                    closeLight = "SleepingRoom_Lights_l1";
+                                    break;
+                                case "SleepingRoom_Lights_l2":
+                                    closeLight = "SleepingRoom_Lights_l2";
+                                    break;
+                                case "Bathroom_Lights_l1":
+                                    closeLight = "Bathroom_Lights_l1";
+                                    break;
+                            }
+                            break;
+                        case "temperature":
+                            temperatura = parts[1].trim();
+                            break;
+                        case "close windows":
+                            windows = "OFF";
+                            break;
+                        case "open windows":
+                            windows = "ON";
+                            break;
+                        case "close lights":
+                            switch (parts[1].trim()) {
+                                case "livingroom":
+                                    closeLightsArea = "livingroom";
+                                    break;
+                                case "bathroom":
+                                    closeLightsArea = "bathroom";
+                                    break;
+                                case "kitchen":
+                                    closeLightsArea = "bathroom";
+                                    break;
+                                case "sleepingroom":
+                                    closeLightsArea = "bathroom";
+                                    break;
+                            }
+                            break;
                     }
-                    break;
-                default:
-                    new Logger("Execution").writeln("[DEBUG] args[0] = " + args[0] + ". Nothing to do...");
-                    break;
+                }
+                Paho p = new Paho();
+
+                p.send("home/general/decision/openwindow", openWindow);
+                p.send("home/general/decision/closewindow", closeWindow);
+                p.send("home/general/decision/openlight", openLight);
+                p.send("home/general/decision/closelight", closeLight);
+                p.send("home/general/decision/windowsdecision", windows);
+                p.send("home/general/decision/temperatura", temperatura);
+                p.send("home/general/decision/closelights", closeLightsArea);
+                
+                System.out.println("\n");
+                
+                closeLightsArea = "VOID";
+                closeLight = "VOID";
+                openLight = "VOID";
+                closeWindow = "VOID";
+                openWindow = "VOID";
+                windows = "VOID";
+                temperatura = "VOID";
             }
-            new Logger("Execution").writeln("[DEBUG] Received command: " + args[0] + " " + (args.length == 2 ? args[1] : ""));
-            writer.close();
-        } catch (IOException e) {
-            // do something
         }
-
     }
 }
