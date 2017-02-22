@@ -17,6 +17,7 @@ sitemap default label="Project: Smart-Home"
 			Frame label="Windows" {
 				Switch item=LivingRoom_Windows_l1 label="Balcony" icon="contact-ajar"
 				Switch item=LivingRoom_Windows_l2 label="Window" icon="contact-ajar"
+				Switch item=LivingRoom_Windows_l3 label="Window" icon="contact-ajar"
 			}
 			
 			Frame label="Lights" {

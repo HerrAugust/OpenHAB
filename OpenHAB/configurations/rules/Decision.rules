@@ -159,6 +159,15 @@ end
 
 rule "Turn window on"
 when
+	Item LivingRoom_Windows_l3 changed
+then
+	var String todo = "close"
+	if(LivingRoom_Windows_l3.state == ON) todo = "open"
+	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " window: \" \"LivingRoom_Windows_l3\"", 5000)
+end
+
+rule "Turn window on"
+when
 	Item Kitchen_Windows_l1 changed
 then
 	var String todo = "close"
