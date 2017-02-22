@@ -123,8 +123,7 @@ public class Analysis {
 		}
 		new Paho().send("symptoms/temperature", temp1);
 		
-		//send symptoms. Analysis work is finished. Now Decision comes into play
-		
+		//symptoms sent. Analysis work is finished. Now Decision comes into play
 		
 	}
 
