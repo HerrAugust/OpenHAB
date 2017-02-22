@@ -27,6 +27,5 @@ MonitoringAnalysis/*
 OpenHAB/*
 !OpenHAB/configurations
 
-
 Execution/*
-!Execution/src   # except src
+!Execution/src
