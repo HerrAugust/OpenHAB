@@ -5,11 +5,11 @@ sitemap default label="Project: Smart-Home"
         Text item=Humidity label="Humidity [%d%%]" icon="garden" 
         Text item=LightsOn label="Lights on [%d in 8]" icon="light-on"
         Text item=Temperature label="Temperature (avg.) [%.1f °C]" icon="temperature-hot" valuecolor=[>25="orange",>15="green",<=15="blue"] 
-        Text item=Windows_Number label="Open windows (total) [%d out of 6]" icon="contact-ajar"
+        Text item=Windows_Number label="Open windows (total) [%d out of 7]" icon="contact-ajar"
     }
     
     Frame label="Living room" { //for each room, heating and windows can be shown
-    	Text item=Windows_LivingRoom label="Open windows [%d in 2]" icon="contact-air"
+    	Text item=Windows_LivingRoom label="Open windows [%d in 3]" icon="contact-air"
         Text item=Lights_LivingRoom label="Lights on [%d in 3]" icon="light-on"
         //Text item=Temperature_LivingRoom label="Temperature [%.1f °C]" icon="temperature-hot"
         Text item=People_LivingRoom label="People [%d]" icon="boy1"
