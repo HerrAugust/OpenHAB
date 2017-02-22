@@ -24,7 +24,6 @@ public class Paho implements MqttCallback {
 	
 	private final String broker = "tcp://localhost:1883";
 	private final String clientId = "Paho Monitoring";
-	private final int qos = 2;
 	private MqttClient sampleClient = null;
 	private MemoryPersistence persistence;
 	
