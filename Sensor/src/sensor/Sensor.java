@@ -6,13 +6,15 @@
 package sensor;
 
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 /**
@@ -1001,6 +1003,7 @@ public class Sensor extends javax.swing.JFrame {
 
     }//GEN-LAST:event_sliderEleStateChanged
 
+    @SuppressWarnings("empty-statement")
     public static void main(String args[]) throws MqttException, InterruptedException, IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1024,13 +1027,11 @@ public class Sensor extends javax.swing.JFrame {
                 k.setVisible(true);
             }
         });
-        k.publishData();
-        Thread.sleep(1000);
-        for (;;) {
-            Thread.sleep(4000);
-            k.Actuator();
+        k.publishData();  
+        for(;;){
+            Thread.sleep(15000);
+            PahoMsgArrived p = new PahoMsgArrived();
         }
-
     }
 
     public void publishData() {
@@ -1081,324 +1082,6 @@ public class Sensor extends javax.swing.JFrame {
         p.send("home/bathroom/people", Bathroom_People + "");
 
     }
-
-    private void Actuator() throws MqttException, InterruptedException {
-
-        try {
-            String file = readFile();
-
-            //System.out.println(file);
-            String[] parts = file.split(": ");
-
-            switch (parts[0]) {
-                case "increase temperature":
-                    int tempe = (int) Float.parseFloat(parts[1]);
-                    sliderTemp.setValue(tempe);
-                    temp.setText("" + tempe + " °C");
-                    break;
-                case "decrease temperature":
-                    int tempera = (int) Float.parseFloat(parts[1]);
-                    sliderTemp.setValue(tempera);
-                    temp.setText("" + tempera + " °C");
-                break;
-                case "open light":
-                    switch (parts[1].trim()) {
-                        case "LivingRoom_Lights_l1":
-
-                            if (!lightLR1.isSelected()) {
-                                lightLR1.setSelected(true);
-                                LivingRoom_Lights_l1 = "ON";
-                                publishData();
-                            }
-                            break;
-                        case "LivingRoom_Lights_l2":
-                            if (!lightLR2.isSelected()) {
-                                lightLR2.setSelected(true);
-                            }
-                            break;
-
-                        case "LivingRoom_Lights_l3":
-                            if (!lightLR2.isSelected()) {
-                                lightLR3.setSelected(true);
-                            }
-                            break;
-                        case "Kitchen_Lights_l1":
-                            if (!lightKT1.isSelected()) {
-                                lightKT1.setSelected(true);
-                            }
-                            break;
-                        case "Kitchen_Lights_l2":
-                            if (!lightKT2.isSelected()) {
-                                lightKT2.setSelected(true);
-                            }
-                            break;
-                        case "SleepingRoom_Lights_l1":
-                            if (!LightSR1.isSelected()) {
-                                LightSR1.setSelected(true);
-                            }
-                            break;
-                        case "SleepingRoom_Lights_l2":
-                            if (!LightSR1.isSelected()) {
-                                LightSR1.setSelected(true);
-                            }
-                            break;
-                        case "BathRoom_Lights_l1":
-                            if (!lightBR1.isSelected()) {
-                                lightBR1.setSelected(true);
-                            }
-                            break;
-
-                    }
-                    break;
-                case "open window":
-                    switch (parts[1].trim()) {
-                        case "LivingRoom_Windows_l1":
-                            if (!windowLR1.isSelected()) {
-                                windowLR1.setSelected(true);
-                            }
-                            break;
-                        case "LivingRoom_Windows_l2":
-                            if (!windowLR2.isSelected()) {
-                                windowLR2.setSelected(true);
-                            }
-                            break;
-                        case "Kitchen_Windows_l1":
-                            if (!windowKT1.isSelected()) {
-                                windowKT1.setSelected(true);
-                            }
-                            break;
-                        case "Kitchen_Windows_l2":
-                            if (!windowKT2.isSelected()) {
-                                windowKT2.setSelected(true);
-                            }
-                            break;
-                        case "SleepingRoom_Windows_l1":
-                            if (!windowSR1.isSelected()) {
-                                windowLR3.setSelected(true);
-                            }
-                            break;
-                        case "BathRoom_Windows_l1":
-                            if (!windowBR1.isSelected()) {
-                                windowBR1.setSelected(true);
-                            }
-                            break;
-                    }
-                    break;
-
-                case "close window":
-                    switch (parts[1].trim()) {
-                        case "LivingRoom_Windows_l1":
-                            if (windowLR1.isSelected()) {
-                                windowLR1.setSelected(false);
-                            }
-                            break;
-                        case "LivingRoom_Windows_l2":
-                            if (windowLR2.isSelected()) {
-                                windowLR2.setSelected(false);
-                            }
-                            break;
-
-                        case "LivingRoom_Windows_l3":
-                            if (windowLR3.isSelected()) {
-                                windowLR3.setSelected(false);
-                            }
-                            break;
-
-                        case "Kitchen_Windows_l1":
-                            if (windowKT1.isSelected()) {
-                                windowKT1.setSelected(false);
-                            }
-                            break;
-
-                        case "Kitchen_Windows_l2":
-                            if (windowKT2.isSelected()) {
-                                windowKT2.setSelected(false);
-                            }
-                            break;
-
-                        case "SleepingRoom_Windows_l1":
-                            if (windowSR1.isSelected()) {
-                                windowLR3.setSelected(false);
-                            }
-                            break;
-
-                        case "BathRoom_Windows_l1":
-                            if (windowBR1.isSelected()) {
-                                windowBR1.setSelected(false);
-                            }
-                            break;
-
-                    }
-                    break;
-
-                case "close light":
-                    switch (parts[1].trim()) {
-                        case "LivingRoom_Lights_l1":
-
-                            if (lightLR1.isSelected()) {
-                                lightLR1.setSelected(false);
-                            }
-                            break;
-                        case "LivingRoom_Lights_l2":
-                            if (lightLR2.isSelected()) {
-                                lightLR2.setSelected(false);
-                            }
-                            break;
-
-                        case "LivingRoom_Lights_l3":
-                            if (lightLR2.isSelected()) {
-                                lightLR3.setSelected(false);
-                            }
-                            break;
-
-                        case "Kitchen_Lights_l1":
-                            if (lightKT1.isSelected()) {
-                                lightKT1.setSelected(false);
-                            }
-                            break;
-                        case "Kitchen_Lights_l2":
-                            if (lightKT2.isSelected()) {
-                                lightKT2.setSelected(false);
-                            }
-                            break;
-                        case "SleepingRoom_Lights_l1":
-                            if (LightSR1.isSelected()) {
-                                LightSR1.setSelected(false);
-                            }
-                            break;
-                        case "SleepingRoom_Lights_l2":
-                            if (LightSR1.isSelected()) {
-                                LightSR1.setSelected(false);
-                            }
-                            break;
-                        case "BathRoom_Lights_l1":
-                            if (lightBR1.isSelected()) {
-                                lightBR1.setSelected(false);
-                            }
-                            break;
-
-                    }
-                    break;
-                case "close lights":
-                    switch (parts[1].trim()) {
-                        case "sleepingroom":
-                            if (LightSR1.isSelected()) {
-                                LightSR1.setSelected(false);
-                            }
-                            if (LightSR2.isSelected()) {
-                                LightSR2.setSelected(false);
-                            }
-                            break;
-                        case "bathroom":
-                            if (lightBR1.isSelected()) {
-                                lightBR1.setSelected(false);
-                            }
-                            break;
-                        case "kitchen":
-                            if (lightKT1.isSelected()) {
-                                lightKT1.setSelected(false);
-                            }
-                            if (lightKT2.isSelected()) {
-                                lightKT2.setSelected(false);
-                            }
-                            break;
-                        case "livingroom":
-                            if (lightLR1.isSelected()) {
-                                lightLR1.setSelected(false);
-                            }
-                            if (lightLR2.isSelected()) {
-                                lightLR2.setSelected(false);
-                            }
-                            if (lightLR2.isSelected()) {
-                                lightLR2.setSelected(false);
-                            }
-                            break;
-                    }
-                    break;
-                case "windows":
-                    switch (parts[1].trim()) {
-                        case "0":
-                            //close
-                            if (windowLR1.isSelected()) {
-                                windowLR1.setSelected(false);
-                            }
-                            if (windowLR2.isSelected()) {
-                                windowLR2.setSelected(false);
-                            }
-                            if (windowLR3.isSelected()) {
-                                windowLR3.setSelected(false);
-                            }
-                            if (windowKT1.isSelected()) {
-                                windowKT1.setSelected(false);
-                            }
-                            if (windowKT2.isSelected()) {
-                                windowKT2.setSelected(false);
-                            }
-                            if (windowSR1.isSelected()) {
-                                windowLR3.setSelected(false);
-                            }
-                            if (windowBR1.isSelected()) {
-                                windowBR1.setSelected(false);
-                            }
-                            break;
-                        case "1":
-                            //open
-
-                            if (!windowLR1.isSelected()) {
-                                windowLR1.setSelected(true);
-                            }
-                            if (!windowLR2.isSelected()) {
-                                windowLR2.setSelected(true);
-                            }
-                            if (!windowKT1.isSelected()) {
-                                windowKT1.setSelected(true);
-                            }
-                            if (!windowKT2.isSelected()) {
-                                windowKT2.setSelected(true);
-                            }
-                            if (!windowSR1.isSelected()) {
-                                windowLR3.setSelected(true);
-                            }
-                            if (!windowBR1.isSelected()) {
-                                windowBR1.setSelected(true);
-                            }
-
-                            break;
-                    }
-                    break;
-                default:
-                    System.out.println("niente2");
-                    break;
-
-            }
-            publishData();
-        } catch (IOException ex) {
-            Logger.getLogger(Sensor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //Thread.sleep(2000);
-        System.out.println("\n");
-
-    }
-
-    public String readFile() throws FileNotFoundException, IOException {
-        BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.home") + "/Documents/Ruscio/OpenHAB/OpenHAB/execute.txt"));
-        try {
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
-
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = br.readLine();
-            }
-            String everything = sb.toString();
-            System.out.println(everything);
-            return everything;
-        } finally {
-            br.close();
-        }
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton LightSR1;
@@ -1472,4 +1155,715 @@ public class Sensor extends javax.swing.JFrame {
     String LivingRoom_Windows_l1 = "OFF", LivingRoom_Windows_l2 = "OFF", LivingRoom_Windows_l3 = "OFF", Kitchen_Windows_l1 = "OFF", Kitchen_Windows_l2 = "OFF";
     String SleepingRoom_Windows_l1 = "OFF", Bathroom_Windows_l1 = "OFF";
 
+    public JToggleButton getLightSR1() {
+        return LightSR1;
+    }
+
+    public void setLightSR1(JToggleButton LightSR1) {
+        this.LightSR1 = LightSR1;
+    }
+
+    public JToggleButton getLightSR2() {
+        return LightSR2;
+    }
+
+    public void setLightSR2(JToggleButton LightSR2) {
+        this.LightSR2 = LightSR2;
+    }
+
+    public JButton getBtnBR() {
+        return btnBR;
+    }
+
+    public void setBtnBR(JButton btnBR) {
+        this.btnBR = btnBR;
+    }
+
+    public JButton getBtnKT() {
+        return btnKT;
+    }
+
+    public void setBtnKT(JButton btnKT) {
+        this.btnKT = btnKT;
+    }
+
+    public JButton getBtnLR() {
+        return btnLR;
+    }
+
+    public void setBtnLR(JButton btnLR) {
+        this.btnLR = btnLR;
+    }
+
+    public JButton getBtnSR() {
+        return btnSR;
+    }
+
+    public void setBtnSR(JButton btnSR) {
+        this.btnSR = btnSR;
+    }
+
+    public JTextField getEle() {
+        return ele;
+    }
+
+    public void setEle(JTextField ele) {
+        this.ele = ele;
+    }
+
+    public JTextField getHum() {
+        return hum;
+    }
+
+    public void setHum(JTextField hum) {
+        this.hum = hum;
+    }
+
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+
+    public JLabel getjLabel10() {
+        return jLabel10;
+    }
+
+    public void setjLabel10(JLabel jLabel10) {
+        this.jLabel10 = jLabel10;
+    }
+
+    public JLabel getjLabel11() {
+        return jLabel11;
+    }
+
+    public void setjLabel11(JLabel jLabel11) {
+        this.jLabel11 = jLabel11;
+    }
+
+    public JLabel getjLabel12() {
+        return jLabel12;
+    }
+
+    public void setjLabel12(JLabel jLabel12) {
+        this.jLabel12 = jLabel12;
+    }
+
+    public JLabel getjLabel13() {
+        return jLabel13;
+    }
+
+    public void setjLabel13(JLabel jLabel13) {
+        this.jLabel13 = jLabel13;
+    }
+
+    public JLabel getjLabel14() {
+        return jLabel14;
+    }
+
+    public void setjLabel14(JLabel jLabel14) {
+        this.jLabel14 = jLabel14;
+    }
+
+    public JLabel getjLabel15() {
+        return jLabel15;
+    }
+
+    public void setjLabel15(JLabel jLabel15) {
+        this.jLabel15 = jLabel15;
+    }
+
+    public JLabel getjLabel16() {
+        return jLabel16;
+    }
+
+    public void setjLabel16(JLabel jLabel16) {
+        this.jLabel16 = jLabel16;
+    }
+
+    public JLabel getjLabel17() {
+        return jLabel17;
+    }
+
+    public void setjLabel17(JLabel jLabel17) {
+        this.jLabel17 = jLabel17;
+    }
+
+    public JLabel getjLabel18() {
+        return jLabel18;
+    }
+
+    public void setjLabel18(JLabel jLabel18) {
+        this.jLabel18 = jLabel18;
+    }
+
+    public JLabel getjLabel19() {
+        return jLabel19;
+    }
+
+    public void setjLabel19(JLabel jLabel19) {
+        this.jLabel19 = jLabel19;
+    }
+
+    public JLabel getjLabel2() {
+        return jLabel2;
+    }
+
+    public void setjLabel2(JLabel jLabel2) {
+        this.jLabel2 = jLabel2;
+    }
+
+    public JLabel getjLabel20() {
+        return jLabel20;
+    }
+
+    public void setjLabel20(JLabel jLabel20) {
+        this.jLabel20 = jLabel20;
+    }
+
+    public JLabel getjLabel21() {
+        return jLabel21;
+    }
+
+    public void setjLabel21(JLabel jLabel21) {
+        this.jLabel21 = jLabel21;
+    }
+
+    public JLabel getjLabel22() {
+        return jLabel22;
+    }
+
+    public void setjLabel22(JLabel jLabel22) {
+        this.jLabel22 = jLabel22;
+    }
+
+    public JLabel getjLabel3() {
+        return jLabel3;
+    }
+
+    public void setjLabel3(JLabel jLabel3) {
+        this.jLabel3 = jLabel3;
+    }
+
+    public JLabel getjLabel4() {
+        return jLabel4;
+    }
+
+    public void setjLabel4(JLabel jLabel4) {
+        this.jLabel4 = jLabel4;
+    }
+
+    public JLabel getjLabel5() {
+        return jLabel5;
+    }
+
+    public void setjLabel5(JLabel jLabel5) {
+        this.jLabel5 = jLabel5;
+    }
+
+    public JLabel getjLabel6() {
+        return jLabel6;
+    }
+
+    public void setjLabel6(JLabel jLabel6) {
+        this.jLabel6 = jLabel6;
+    }
+
+    public JLabel getjLabel7() {
+        return jLabel7;
+    }
+
+    public void setjLabel7(JLabel jLabel7) {
+        this.jLabel7 = jLabel7;
+    }
+
+    public JLabel getjLabel8() {
+        return jLabel8;
+    }
+
+    public void setjLabel8(JLabel jLabel8) {
+        this.jLabel8 = jLabel8;
+    }
+
+    public JLabel getjLabel9() {
+        return jLabel9;
+    }
+
+    public void setjLabel9(JLabel jLabel9) {
+        this.jLabel9 = jLabel9;
+    }
+
+    public JPanel getjPanel1() {
+        return jPanel1;
+    }
+
+    public void setjPanel1(JPanel jPanel1) {
+        this.jPanel1 = jPanel1;
+    }
+
+    public JPanel getjPanel2() {
+        return jPanel2;
+    }
+
+    public void setjPanel2(JPanel jPanel2) {
+        this.jPanel2 = jPanel2;
+    }
+
+    public JPanel getjPanel3() {
+        return jPanel3;
+    }
+
+    public void setjPanel3(JPanel jPanel3) {
+        this.jPanel3 = jPanel3;
+    }
+
+    public JPanel getjPanel4() {
+        return jPanel4;
+    }
+
+    public void setjPanel4(JPanel jPanel4) {
+        this.jPanel4 = jPanel4;
+    }
+
+    public JLabel getLabelLights() {
+        return labelLights;
+    }
+
+    public void setLabelLights(JLabel labelLights) {
+        this.labelLights = labelLights;
+    }
+
+    public JLabel getLabelWindows() {
+        return labelWindows;
+    }
+
+    public void setLabelWindows(JLabel labelWindows) {
+        this.labelWindows = labelWindows;
+    }
+
+    public JToggleButton getLightBR1() {
+        return lightBR1;
+    }
+
+    public void setLightBR1(JToggleButton lightBR1) {
+        this.lightBR1 = lightBR1;
+    }
+
+    public JToggleButton getLightKT1() {
+        return lightKT1;
+    }
+
+    public void setLightKT1(JToggleButton lightKT1) {
+        this.lightKT1 = lightKT1;
+    }
+
+    public JToggleButton getLightKT2() {
+        return lightKT2;
+    }
+
+    public void setLightKT2(JToggleButton lightKT2) {
+        this.lightKT2 = lightKT2;
+    }
+
+    public JToggleButton getLightLR1() {
+        return lightLR1;
+    }
+
+    public void setLightLR1(JToggleButton lightLR1) {
+        this.lightLR1 = lightLR1;
+    }
+
+    public JToggleButton getLightLR2() {
+        return lightLR2;
+    }
+
+    public void setLightLR2(JToggleButton lightLR2) {
+        this.lightLR2 = lightLR2;
+    }
+
+    public JToggleButton getLightLR3() {
+        return lightLR3;
+    }
+
+    public void setLightLR3(JToggleButton lightLR3) {
+        this.lightLR3 = lightLR3;
+    }
+
+    public JSlider getSliderEle() {
+        return sliderEle;
+    }
+
+    public void setSliderEle(JSlider sliderEle) {
+        this.sliderEle = sliderEle;
+    }
+
+    public JSlider getSliderHum() {
+        return sliderHum;
+    }
+
+    public void setSliderHum(JSlider sliderHum) {
+        this.sliderHum = sliderHum;
+    }
+
+    public JSlider getSliderTemp() {
+        return sliderTemp;
+    }
+
+    public void setSliderTemp(JSlider sliderTemp) {
+        this.sliderTemp = sliderTemp;
+    }
+
+    public JTextField getTemp() {
+        return temp;
+    }
+
+    public void setTemp(JTextField temp) {
+        this.temp = temp;
+    }
+
+    public JTextField getTxtPeopleBR() {
+        return txtPeopleBR;
+    }
+
+    public void setTxtPeopleBR(JTextField txtPeopleBR) {
+        this.txtPeopleBR = txtPeopleBR;
+    }
+
+    public JTextField getTxtPeopleKT() {
+        return txtPeopleKT;
+    }
+
+    public void setTxtPeopleKT(JTextField txtPeopleKT) {
+        this.txtPeopleKT = txtPeopleKT;
+    }
+
+    public JTextField getTxtPeopleLR() {
+        return txtPeopleLR;
+    }
+
+    public void setTxtPeopleLR(JTextField txtPeopleLR) {
+        this.txtPeopleLR = txtPeopleLR;
+    }
+
+    public JTextField getTxtPeopleSR() {
+        return txtPeopleSR;
+    }
+
+    public void setTxtPeopleSR(JTextField txtPeopleSR) {
+        this.txtPeopleSR = txtPeopleSR;
+    }
+
+    public JToggleButton getWindowBR1() {
+        return windowBR1;
+    }
+
+    public void setWindowBR1(JToggleButton windowBR1) {
+        this.windowBR1 = windowBR1;
+    }
+
+    public JToggleButton getWindowKT1() {
+        return windowKT1;
+    }
+
+    public void setWindowKT1(JToggleButton windowKT1) {
+        this.windowKT1 = windowKT1;
+    }
+
+    public JToggleButton getWindowKT2() {
+        return windowKT2;
+    }
+
+    public void setWindowKT2(JToggleButton windowKT2) {
+        this.windowKT2 = windowKT2;
+    }
+
+    public JToggleButton getWindowLR1() {
+        return windowLR1;
+    }
+
+    public void setWindowLR1(JToggleButton windowLR1) {
+        this.windowLR1 = windowLR1;
+    }
+
+    public JToggleButton getWindowLR2() {
+        return windowLR2;
+    }
+
+    public void setWindowLR2(JToggleButton windowLR2) {
+        this.windowLR2 = windowLR2;
+    }
+
+    public JToggleButton getWindowLR3() {
+        return windowLR3;
+    }
+
+    public void setWindowLR3(JToggleButton windowLR3) {
+        this.windowLR3 = windowLR3;
+    }
+
+    public JToggleButton getWindowSR1() {
+        return windowSR1;
+    }
+
+    public void setWindowSR1(JToggleButton windowSR1) {
+        this.windowSR1 = windowSR1;
+    }
+
+    public int getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
+
+    public int getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
+    }
+
+    public int getElectricity() {
+        return electricity;
+    }
+
+    public void setElectricity(int electricity) {
+        this.electricity = electricity;
+    }
+
+    public int getLightsOn() {
+        return LightsOn;
+    }
+
+    public void setLightsOn(int LightsOn) {
+        this.LightsOn = LightsOn;
+    }
+
+    public int getLights_LivingRoom() {
+        return Lights_LivingRoom;
+    }
+
+    public void setLights_LivingRoom(int Lights_LivingRoom) {
+        this.Lights_LivingRoom = Lights_LivingRoom;
+    }
+
+    public int getLights_Kitchen() {
+        return Lights_Kitchen;
+    }
+
+    public void setLights_Kitchen(int Lights_Kitchen) {
+        this.Lights_Kitchen = Lights_Kitchen;
+    }
+
+    public int getLights_SleepingRoom() {
+        return Lights_SleepingRoom;
+    }
+
+    public void setLights_SleepingRoom(int Lights_SleepingRoom) {
+        this.Lights_SleepingRoom = Lights_SleepingRoom;
+    }
+
+    public int getLights_Bathroom() {
+        return Lights_Bathroom;
+    }
+
+    public void setLights_Bathroom(int Lights_Bathroom) {
+        this.Lights_Bathroom = Lights_Bathroom;
+    }
+
+    public String getLivingRoom_Lights_l1() {
+        return LivingRoom_Lights_l1;
+    }
+
+    public void setLivingRoom_Lights_l1(String LivingRoom_Lights_l1) {
+        this.LivingRoom_Lights_l1 = LivingRoom_Lights_l1;
+    }
+
+    public String getLivingRoom_Lights_l2() {
+        return LivingRoom_Lights_l2;
+    }
+
+    public void setLivingRoom_Lights_l2(String LivingRoom_Lights_l2) {
+        this.LivingRoom_Lights_l2 = LivingRoom_Lights_l2;
+    }
+
+    public String getLivingRoom_Lights_l3() {
+        return LivingRoom_Lights_l3;
+    }
+
+    public void setLivingRoom_Lights_l3(String LivingRoom_Lights_l3) {
+        this.LivingRoom_Lights_l3 = LivingRoom_Lights_l3;
+    }
+
+    public String getKitchen_Lights_l1() {
+        return Kitchen_Lights_l1;
+    }
+
+    public void setKitchen_Lights_l1(String Kitchen_Lights_l1) {
+        this.Kitchen_Lights_l1 = Kitchen_Lights_l1;
+    }
+
+    public String getKitchen_Lights_l2() {
+        return Kitchen_Lights_l2;
+    }
+
+    public void setKitchen_Lights_l2(String Kitchen_Lights_l2) {
+        this.Kitchen_Lights_l2 = Kitchen_Lights_l2;
+    }
+
+    public String getSleepingRoom_Lights_l1() {
+        return SleepingRoom_Lights_l1;
+    }
+
+    public void setSleepingRoom_Lights_l1(String SleepingRoom_Lights_l1) {
+        this.SleepingRoom_Lights_l1 = SleepingRoom_Lights_l1;
+    }
+
+    public String getSleepingRoom_Lights_l2() {
+        return SleepingRoom_Lights_l2;
+    }
+
+    public void setSleepingRoom_Lights_l2(String SleepingRoom_Lights_l2) {
+        this.SleepingRoom_Lights_l2 = SleepingRoom_Lights_l2;
+    }
+
+    public String getBathroom_Lights_l1() {
+        return Bathroom_Lights_l1;
+    }
+
+    public void setBathroom_Lights_l1(String Bathroom_Lights_l1) {
+        this.Bathroom_Lights_l1 = Bathroom_Lights_l1;
+    }
+
+    public int getWindows_Number() {
+        return Windows_Number;
+    }
+
+    public void setWindows_Number(int Windows_Number) {
+        this.Windows_Number = Windows_Number;
+    }
+
+    public int getWindows_LivingRoom() {
+        return Windows_LivingRoom;
+    }
+
+    public void setWindows_LivingRoom(int Windows_LivingRoom) {
+        this.Windows_LivingRoom = Windows_LivingRoom;
+    }
+
+    public int getWindows_Kitchen() {
+        return Windows_Kitchen;
+    }
+
+    public void setWindows_Kitchen(int Windows_Kitchen) {
+        this.Windows_Kitchen = Windows_Kitchen;
+    }
+
+    public int getWindows_SleepingRoom() {
+        return Windows_SleepingRoom;
+    }
+
+    public void setWindows_SleepingRoom(int Windows_SleepingRoom) {
+        this.Windows_SleepingRoom = Windows_SleepingRoom;
+    }
+
+    public int getWindows_Bathroom() {
+        return Windows_Bathroom;
+    }
+
+    public void setWindows_Bathroom(int Windows_Bathroom) {
+        this.Windows_Bathroom = Windows_Bathroom;
+    }
+
+    public int getLivingRoom_People() {
+        return LivingRoom_People;
+    }
+
+    public void setLivingRoom_People(int LivingRoom_People) {
+        this.LivingRoom_People = LivingRoom_People;
+    }
+
+    public int getKitchen_People() {
+        return Kitchen_People;
+    }
+
+    public void setKitchen_People(int Kitchen_People) {
+        this.Kitchen_People = Kitchen_People;
+    }
+
+    public int getSleepingRoom_People() {
+        return SleepingRoom_People;
+    }
+
+    public void setSleepingRoom_People(int SleepingRoom_People) {
+        this.SleepingRoom_People = SleepingRoom_People;
+    }
+
+    public int getBathroom_People() {
+        return Bathroom_People;
+    }
+
+    public void setBathroom_People(int Bathroom_People) {
+        this.Bathroom_People = Bathroom_People;
+    }
+
+    public String getLivingRoom_Windows_l1() {
+        return LivingRoom_Windows_l1;
+    }
+
+    public void setLivingRoom_Windows_l1(String LivingRoom_Windows_l1) {
+        this.LivingRoom_Windows_l1 = LivingRoom_Windows_l1;
+    }
+
+    public String getLivingRoom_Windows_l2() {
+        return LivingRoom_Windows_l2;
+    }
+
+    public void setLivingRoom_Windows_l2(String LivingRoom_Windows_l2) {
+        this.LivingRoom_Windows_l2 = LivingRoom_Windows_l2;
+    }
+
+    public String getLivingRoom_Windows_l3() {
+        return LivingRoom_Windows_l3;
+    }
+
+    public void setLivingRoom_Windows_l3(String LivingRoom_Windows_l3) {
+        this.LivingRoom_Windows_l3 = LivingRoom_Windows_l3;
+    }
+
+    public String getKitchen_Windows_l1() {
+        return Kitchen_Windows_l1;
+    }
+
+    public void setKitchen_Windows_l1(String Kitchen_Windows_l1) {
+        this.Kitchen_Windows_l1 = Kitchen_Windows_l1;
+    }
+
+    public String getKitchen_Windows_l2() {
+        return Kitchen_Windows_l2;
+    }
+
+    public void setKitchen_Windows_l2(String Kitchen_Windows_l2) {
+        this.Kitchen_Windows_l2 = Kitchen_Windows_l2;
+    }
+
+    public String getSleepingRoom_Windows_l1() {
+        return SleepingRoom_Windows_l1;
+    }
+
+    public void setSleepingRoom_Windows_l1(String SleepingRoom_Windows_l1) {
+        this.SleepingRoom_Windows_l1 = SleepingRoom_Windows_l1;
+    }
+
+    public String getBathroom_Windows_l1() {
+        return Bathroom_Windows_l1;
+    }
+
+    public void setBathroom_Windows_l1(String Bathroom_Windows_l1) {
+        this.Bathroom_Windows_l1 = Bathroom_Windows_l1;
+    }
 }
