@@ -4,6 +4,7 @@ import Storage.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,12 +15,15 @@ public class Analysis {
 	private final static String goalsfile = System.getProperty("user.home") + "\\Documents\\Ruscio\\OpenHAB\\OpenHAB\\high_level_goals.conf"; //read only
 	
 	public static void main(String[] args) {
-		String towritesym = "";
+		List<String> towritesym = new ArrayList<String>();
 		File goal = new File(goalsfile);
+		Storage s = new Storage();
+		
+		//void Symptoms table in DB: old symptoms could be no more valid
+		s.emptyTable("symptom");
 		
 		//PRUNING PHASE		
 		//Check if last 2 inserted temperatures differ more than 2 degrees
-		Storage s = new Storage();
 		List<Object[]> temp = s.readMany("temperature", new String[] {"id", "degrees"}, "ORDER BY id DESC LIMIT 10");
 		int tempsize = temp.size();
 		boolean cond2 = false;
@@ -56,7 +60,7 @@ public class Analysis {
 		//if in area X there are no people => write to symptomfile. DECISION component decides: if elec.min. => turn lights off in area x; if elec.opt. => none
 		for(Object[] o : people) {
 			if((int) o[2] == 0)
-				towritesym += (String) o[1] + " VOID\n";
+				towritesym.add( (String) o[1] + " VOID" );
 		}
 		
 		//if time is getting to windows threshold => write to symtomfile. DECISION component decides: if user has specified this goal && temperature > threshold + keep house warm => open windows; else => none
@@ -68,12 +72,12 @@ public class Analysis {
 			try {
 				Date beg = new SimpleDateFormat("HH:mm").parse(timebeg);
 				if(beg.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
-					towritesym += "GETTING TO DATE TO OPEN WINDOWS\n";
+					towritesym.add( "GETTING TO DATE TO OPEN WINDOWS" );
 				}
 				
 				Date end = new SimpleDateFormat("HH:mm").parse(timeend);
 				if(end.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
-					towritesym += "GETTING TO DATE TO CLOSE WINDOWS\n";
+					towritesym.add( "GETTING TO DATE TO CLOSE WINDOWS" );
 				}
 			} catch (ParseException e) {
 				System.err.println("error with date beg in file for high-level goals");
@@ -98,30 +102,35 @@ public class Analysis {
 		avg = avg / 5;
 			//analysis of temperature growing graph
 		boolean growing = false; //temperature is growing?
+		String temp1 = "";
 		if(avg > curtemp)
 			growing = true;
 		if(growing) {
-			towritesym += "GROWING UP.";
+			temp1 = "GROWING UP.";
 			if(curtemp < threshold) {
-				towritesym += "THR ABOVE";
+				temp1 += "THR ABOVE";
 			}
 			else {
-				towritesym += "THR DOWN";
+				temp1 += "THR DOWN";
 			}
 		}
 		else{
-			towritesym += "GROWING DOWN.";
+			temp1 = "GROWING DOWN.";
 			if(curtemp > threshold) {
-				towritesym += "THR DOWN";
+				temp1 += "THR DOWN";
 			}
 			else {
-				towritesym += "THR ABOVE";
+				temp1 += "THR ABOVE";
 			}
 		}
+		towritesym.add(temp1);
 		
 		//write symptom to file. Analysis work is finished. Now Decision comes into play
-		s = new Storage();
-		s.write("decision", "value", towritesym);
+		for(String sym : towritesym) {
+			sym = "\"" + sym + "\"";
+			s = new Storage();
+			s.write("symptom", "value", sym);
+		}
 		
 	}
 

@@ -43,6 +43,22 @@ public class Storage {
 		}
     }
     
+    /**
+     * Truncates a table, i.e. it deletes all rows within it
+     * @param table table to be truncate
+     */
+    public void emptyTable(String table) {
+	    try {
+	    	stmt = conn.createStatement();
+	    	String sql = "TRUNCATE TABLE " + table;
+	    	stmt.executeUpdate(sql);
+	    } catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+    }
+    
 	/**
 	 * Overwrites a single row, passing the integer id
 	 * @param table table name
