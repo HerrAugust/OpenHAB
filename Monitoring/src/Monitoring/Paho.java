@@ -28,7 +28,6 @@ public class Paho implements MqttCallback {
 	private MemoryPersistence persistence;
 	
 	public Paho() throws MqttException {
-		System.out.println("qui");
 		persistence = new MemoryPersistence();
 		sampleClient = new MqttClient(broker, clientId, persistence);
 		MqttConnectOptions connOpts = new MqttConnectOptions();
@@ -72,7 +71,6 @@ public class Paho implements MqttCallback {
 		sampleClient.subscribe("home/kitchen/people");
 		sampleClient.subscribe("home/sleepingroom/people");
 		sampleClient.subscribe("home/bathroom/people");
-		System.out.println("fine subscription");
 	}
 	
 	@Override
