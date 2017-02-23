@@ -92,8 +92,8 @@ then
 	logDebug("mylogs", "sdhiusahdusaihdsuai " +Electricity_symptom.state.toString)
 	var String goal = Electricity_symptom.state.toString
 	logDebug("mylogs", "goal elec:"+goal)
-	if(electricity_goal.equals("ELEC_MIN")) {
-		val String room = goal.substring(0, s.length() - 5).toLowerCase //VOID = 5
+	if(electricity_goal.equals("ELEC_MIN") && goal.contains("VOID")) { //example: kitchen VOID
+		val String room = goal.substring(0, goal.length() - 5).toLowerCase //VOID = 5
 		val results = executeCommandLine("java -jar StoreDecision.jar \"close lights: \" \"" + room + "\"", 5000)
 		logDebug( "mylogs", "RESULTS=" + results )
 	}

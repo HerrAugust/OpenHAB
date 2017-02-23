@@ -63,8 +63,10 @@ public class Analysis {
 		
 		//if in area X there are no people => write to symptomfile. DECISION component decides: if elec.min. => turn lights off in area x; if elec.opt. => none
 		for(Object[] o : people) {
-			if((int) o[2] == 0)
+			if((int) o[2] == 0) {
 				p.send("symptoms/electricity", (String) o[1] + " VOID" );
+				Thread.sleep(300);
+			}
 		}
 		
 		//if time is getting to windows threshold => write to symtomfile. DECISION component decides: if user has specified this goal && temperature > threshold + keep house warm => open windows; else => none
