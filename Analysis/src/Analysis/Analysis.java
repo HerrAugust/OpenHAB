@@ -21,7 +21,7 @@ public class Analysis {
 
 	private final static String goalsfile = System.getProperty("user.home") + "\\Documents\\Ruscio\\OpenHAB\\OpenHAB\\high_level_goals.conf"; //read only
 	
-	public static void main(String[] args) throws MqttException {
+	public static void main(String[] args) throws MqttException, InterruptedException {
 		File goal = new File(goalsfile);
 		Storage s = new Storage();
 				
@@ -136,6 +136,8 @@ public class Analysis {
 		
 		//symptoms sent. Analysis work is finished. Now Decision comes into play
 		p.finalize();
+		Thread.sleep(1900);
+		main(null);//restart
 		
 	}
 
