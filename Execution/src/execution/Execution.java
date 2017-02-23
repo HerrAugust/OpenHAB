@@ -66,7 +66,7 @@ public class Execution {
                                 case "Bathroom_Windows_l1":
                                     closeWindow = "Bathroom_Windows_l1";
                                     break;
-
+                                    	
                             }
                             break;
                         case "open window":
