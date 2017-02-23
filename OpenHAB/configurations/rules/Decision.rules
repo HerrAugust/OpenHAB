@@ -59,7 +59,7 @@ then
 		}
 		} finally {
 		    try { fileReader.close() } catch (Exception e) {}
-		}
+		}	
 	logDebug( "mylogs", electricity_goal )
 	logDebug( "mylogs", threshold.toString )
 	logDebug( "mylogs", date_beg.toString )
@@ -71,7 +71,7 @@ rule "Windows goal"
 when
 	Item Windows_symptom received update
 then
-	if(Windows_symptom.state instanceof String) {
+	if(Windows_symptom.state instanceof String && date_beg != null) { //date_beg != null means if there is Windows goal
 		var String goal = Windows_symptom.state.toString
 		//logDebug("mylogs", "goal win:"+goal)
 		if(goal.equals("GETTING TO DATE TO OPEN WINDOWS")) {
@@ -83,7 +83,6 @@ then
 			val results = executeCommandLine("java -jar Execution.jar \"close windows\"", 5000)
 		}
 	}
-	
 end
 
 rule "Electricity goal"
@@ -105,7 +104,7 @@ rule "Temperature goal"
 when
 	Item Temperature_symptom received update
 then
-	if(Temperature_symptom.state instanceof String) {
+	if(Temperature_symptom.state instanceof String && temp_goal != null && !temp_goal.equals("")) {
 		var String goal = Temperature_symptom.state.toString
 		//logDebug("mylogs", "goal temp:"+goal)
 		if(goal.contains("GROWING UP")) {
