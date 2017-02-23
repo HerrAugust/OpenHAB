@@ -20,7 +20,7 @@ public class StoreDecision {
         // TODO code application logic here
         Storage s = new Storage();
         
-        s.exeQuery(args[0]);        
+        s.write("decision", "value", args[0]);        
         
     }
     
