@@ -76,11 +76,11 @@ then
 		//logDebug("mylogs", "goal win:"+goal)
 		if(goal.equals("GETTING TO DATE TO OPEN WINDOWS")) {
 			//notify open windows to execution
-			val results = executeCommandLine("java -jar Execution.jar \"open windows\"", 5000)
+			val results = executeCommandLine("java -jar Execution.jar \"open windows: \"", 5000)
 		}
 		else if(goal.equals("GETTING TO DATE TO CLOSE WINDOWS")) {
 			//notify close windows to execution
-			val results = executeCommandLine("java -jar Execution.jar \"close windows\"", 5000)
+			val results = executeCommandLine("java -jar Execution.jar \"close windows: \"", 5000)
 		}
 	}
 end
@@ -110,14 +110,14 @@ then
 		if(goal.contains("GROWING UP")) {
 			if(goal.endsWith("THR DOWN") && temp_goal.contains("FRESH")) {
 				//open windows and decrease temperature
-				val results = executeCommandLine("java -jar Execution.jar \"open windows\"", 5000)
+				val results = executeCommandLine("java -jar Execution.jar \"open windows: \"", 5000)
 				val results = executeCommandLine("java -jar Execution.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
 		}
 		else if(goal.contains("GROWING DOWN")) {
 			if(goal.endsWith("THR ABOVE") && temp_goal.contains("WARM")) {
 				//open windows and decrease temperature
-				val results = executeCommandLine("java -jar Execution.jar \"close windows\"", 5000)
+				val results = executeCommandLine("java -jar Execution.jar \"close windows: \"", 5000)
 				val results = executeCommandLine("java -jar Execution.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
 		}
