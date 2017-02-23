@@ -211,7 +211,6 @@ then
 	var String todo = "close"
 	if(LivingRoom_Lights_l2.state == ON) todo = "open"
 	logDebug("mylogs", "living room light l2 is: "+LivingRoom_Lights_l2.state)
-	logDebug("mylogs", "command is "+todo)
 	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " light: \" \"LivingRoom_Lights_l2\"", 5000)
 end
 

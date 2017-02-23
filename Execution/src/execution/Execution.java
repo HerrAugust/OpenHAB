@@ -40,7 +40,7 @@ public class Execution {
 
                 for (int j = 0; j < decision.size(); j++) {
                     String sym = (String) decision.get(j)[1];
-                    String[] parts = sym.split(": ");
+                    String[] parts = sym.split(":");
 
                     switch (parts[0].trim()) {
                         case "close window":

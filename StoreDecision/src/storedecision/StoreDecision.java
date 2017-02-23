@@ -24,7 +24,7 @@ public class StoreDecision {
         
         String val = "\"" + args[0];
         if(args.length > 1)
-        	val += " " + args[1];
+        	val += args[1];
         val += "\"";
         Logger l = new Logger(System.getProperty("user.home") + "\\Documents\\Ruscio\\OpenHAB", "storedecision.log");
         l.writeln(val);
