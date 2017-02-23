@@ -132,7 +132,7 @@ when
 then
 	var String todo = "close"
 	if(LivingRoom_Windows_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"LivingRoom_Windows_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + "window: \" \"LivingRoom_Windows_l1\"", 5000)
 end
  
 rule "Turn window on"
@@ -141,7 +141,7 @@ when
 then
 	var String todo = "close"
 	if(LivingRoom_Windows_l2.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"LivingRoom_Windows_l2\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + "window: \" \"LivingRoom_Windows_l2\"", 5000)
 end
 
 rule "Turn window on"
@@ -150,7 +150,7 @@ when
 then
 	var String todo = "close"
 	if(LivingRoom_Windows_l3.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"LivingRoom_Windows_l3\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + "window: \" \"LivingRoom_Windows_l3\"", 5000)
 end
 
 rule "Turn window on"
@@ -159,7 +159,7 @@ when
 then
 	var String todo = "close"
 	if(Kitchen_Windows_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"Kitchen_Windows_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + "window: \" \"Kitchen_Windows_l1\"", 5000)
 end
 
 rule "Turn window on"
@@ -168,7 +168,7 @@ when
 then
 	var String todo = "close"
 	if(Kitchen_Windows_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"Kitchen_Windows_l2\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + "window: \" \"Kitchen_Windows_l2\"", 5000)
 end
 
 rule "Turn window on"
@@ -177,7 +177,7 @@ when
 then
 	var String todo = "close"
 	if(SleepingRoom_Windows_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"SleepingRoom_Windows_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + "window: \" \"SleepingRoom_Windows_l1\"", 5000)
 end
 
 rule "Turn window on"
@@ -186,7 +186,7 @@ when
 then
 	var String todo = "close"
 	if(Bathroom_Windows_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"Bathroom_Windows_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + "window: \" \"Bathroom_Windows_l1\"", 5000)
 end
 
 
