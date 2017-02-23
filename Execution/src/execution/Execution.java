@@ -31,7 +31,7 @@ public class Execution {
         String temperatura = "VOID";
 
         for (;;) {
-    //        Thread.sleep(2000);
+            Thread.sleep(2000);
             Storage s = new Storage();
             List<Object[]> decision = s.readMany("decision", new String[]{"id", "value"}, "ORDER BY id DESC LIMIT 5");
             if (!decision.isEmpty()) {
