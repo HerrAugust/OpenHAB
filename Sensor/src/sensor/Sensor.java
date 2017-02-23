@@ -1028,10 +1028,13 @@ public class Sensor extends javax.swing.JFrame {
             }
         });
         k.publishData();  
-        for(;;){
-            Thread.sleep(15000);
-            PahoMsgArrived p = new PahoMsgArrived();
-        }
+        //for(;;){
+            Thread.sleep(2000);
+            PahoMsgArrived p = new PahoMsgArrived(k);
+            while (true);     
+            
+        
+        //}
     }
 
     public void publishData() {

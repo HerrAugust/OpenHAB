@@ -33,7 +33,7 @@ public class Execution {
         String temperatura = "VOID";
 
         for (;;) {
-            Thread.sleep(10000);
+            Thread.sleep(20000);
             Storage s = new Storage();
             List<Object[]> decision = s.readMany("decision", new String[]{"id", "value"}, "ORDER BY id DESC LIMIT 5");
             if (!decision.isEmpty()) {
@@ -172,10 +172,10 @@ public class Execution {
                                     closeLightsArea = "bathroom";
                                     break;
                                 case "kitchen":
-                                    closeLightsArea = "bathroom";
+                                    closeLightsArea = "kitchen";
                                     break;
                                 case "sleepingroom":
-                                    closeLightsArea = "bathroom";
+                                    closeLightsArea = "sleepingroom";
                                     break;
                             }
                             break;
@@ -190,16 +190,17 @@ public class Execution {
                 p.send("home/general/decision/windowsdecision", windows);
                 p.send("home/general/decision/temperatura", temperatura);
                 p.send("home/general/decision/closelights", closeLightsArea);
+               
                 
                 System.out.println("\n");
                 
-                closeLightsArea = "VOID";
                 closeLight = "VOID";
                 openLight = "VOID";
                 closeWindow = "VOID";
                 openWindow = "VOID";
                 windows = "VOID";
                 temperatura = "VOID";
+                closeLightsArea = "VOID";
             }
         }
     }

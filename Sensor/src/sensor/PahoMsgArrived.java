@@ -17,24 +17,28 @@ public class PahoMsgArrived implements MqttCallback {
     private final int qos = 2;
     private MqttClient sampleClient = null;
     private MemoryPersistence persistence;
+    Sensor sensor = null;
 
-    public PahoMsgArrived() throws MqttException {
-        persistence = new MemoryPersistence();
+    public PahoMsgArrived(Sensor sen) throws MqttException, InterruptedException {
         sampleClient = new MqttClient(broker, clientId, persistence);
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
-        sampleClient.connect(connOpts);
         sampleClient.setCallback(this);
+        System.out.println("Connecting to broker: " + broker);
+        sampleClient.connect(connOpts);
+        System.out.println("Connected");
+        Thread.sleep(1000);
 
+        sensor = sen;
         //subscribe to topics
+        sampleClient.subscribe("home/general/decision/closelights");
         sampleClient.subscribe("home/general/decision/openwindow");
         sampleClient.subscribe("home/general/decision/closewindow");
         sampleClient.subscribe("home/general/decision/openlight");
         sampleClient.subscribe("home/general/decision/closelight");
         sampleClient.subscribe("home/general/decision/windowsdecision");
         sampleClient.subscribe("home/general/decision/temperatura");
-        sampleClient.subscribe("home/general/decision/closelights");
-        System.out.println("fine subscription");
+        System.out.println("suscribed");
     }
 
     public void send(String topic, String content) {
@@ -73,8 +77,7 @@ public class PahoMsgArrived implements MqttCallback {
     public void messageArrived(String topic, MqttMessage content) throws Exception {
         System.out.println("message arrived from " + topic);
         contents = new String(content.getPayload());
-
-        Sensor sensor = new Sensor();
+        
         if (topic.endsWith("openwindow")) {
             switch (contents) {
                 case "LivingRoom_Windows_l1":
@@ -271,9 +274,11 @@ public class PahoMsgArrived implements MqttCallback {
 
             }
         } else if (topic.endsWith("temperatura")) {
+            if(!"VOID".equals(contents)){
             int tempe = (int) Float.parseFloat(contents);
             sensor.getSliderTemp().setValue(tempe);
             sensor.getTemp().setText("" + tempe + " °C");
+            }
         } else if (topic.endsWith("closelights")) {
             switch (contents) {
                 case "sleepingroom":
@@ -347,6 +352,9 @@ public class PahoMsgArrived implements MqttCallback {
                     if (!sensor.getWindowLR2().isSelected()) {
                         sensor.getWindowLR2().setSelected(true);
                     }
+                    if (!sensor.getWindowLR3().isSelected()) {
+                        sensor.getWindowLR3().setSelected(true);
+                    }
                     if (!sensor.getWindowKT1().isSelected()) {
                         sensor.getWindowKT1().setSelected(true);
                     }
@@ -365,7 +373,7 @@ public class PahoMsgArrived implements MqttCallback {
                     break;
             }
         }
-        sensor.publishData();
+        //sensor.publishData();
     }
 
 }
