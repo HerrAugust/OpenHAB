@@ -22,8 +22,6 @@ public class Execution {
      * @throws org.eclipse.paho.client.mqttv3.MqttException
      */
     public static void main(String[] args) throws MqttException, InterruptedException {
-        // TODO code application logic here
-
         String closeLightsArea = "VOID";
         String closeLight = "VOID";
         String openLight = "VOID";
