@@ -1,3 +1,8 @@
+/**
+ * Monitoring starts immediately an instance of Paho client, subscribing all topics.
+ * As it receives something from Sensors, it writes it into DB
+ */
+
 package Monitoring;
 
 import javax.swing.JOptionPane;
@@ -13,6 +18,17 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import Storage.Storage;
 
 public class Paho implements MqttCallback {
+	
+	public static void main(String[] args) throws InterruptedException {
+		try {
+			new Paho();
+		} catch (MqttException e) { //wait 2 seconds and try restart app (e.g., if mosquitto.exe is closed temporarily)
+			e.printStackTrace();
+			Thread.sleep(2000);
+			main(null);
+		}
+		while(true);
+	}
 	
 	Storage s;
 	String table;
