@@ -36,3 +36,4 @@ Execution/*
 
 Orchestrator/*
 !Orchestrator/src
+/StoreDecision/nbproject/private/
