@@ -1,3 +1,8 @@
+/**
+ * Analysis finds symptoms.
+ * Reads goals and finds symptoms according to data in DB.
+ * Expects WAMP and Mosquitto.exe open
+ */
 package Analysis;
 
 import Storage.*;
@@ -51,6 +56,7 @@ public class Analysis {
 		
 		
 		//SYMPTOMS CHECKING
+		Paho p = new Paho();
 		//getting people in all areas
 		s = new Storage();
 		List<Object[]> people = s.readMany("room", new String[] {"id", "name", "peopleIn"}, "");
@@ -58,7 +64,7 @@ public class Analysis {
 		//if in area X there are no people => write to symptomfile. DECISION component decides: if elec.min. => turn lights off in area x; if elec.opt. => none
 		for(Object[] o : people) {
 			if((int) o[2] == 0)
-				new Paho().send("symptoms/electricity", (String) o[1] + " VOID" );
+				p.send("symptoms/electricity", (String) o[1] + " VOID" );
 		}
 		
 		//if time is getting to windows threshold => write to symtomfile. DECISION component decides: if user has specified this goal && temperature > threshold + keep house warm => open windows; else => none
@@ -70,12 +76,12 @@ public class Analysis {
 			try {
 				Date beg = new SimpleDateFormat("HH:mm").parse(timebeg);
 				if(beg.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
-					new Paho().send("symptoms/windows", "GETTING TO DATE TO OPEN WINDOWS" );
+					p.send("symptoms/windows", "GETTING TO DATE TO OPEN WINDOWS" );
 				}
 				
 				Date end = new SimpleDateFormat("HH:mm").parse(timeend);
 				if(end.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
-					new Paho().send("symptoms/windows", "GETTING TO DATE TO CLOSE WINDOWS" );
+					p.send("symptoms/windows", "GETTING TO DATE TO CLOSE WINDOWS" );
 				}
 			} catch (ParseException e) {
 				System.err.println("error with date beg in file for high-level goals");
@@ -99,31 +105,37 @@ public class Analysis {
 		}
 		avg = avg / 5;
 			//analysis of temperature growing graph
-		boolean growing = false; //temperature is growing?
+		int growing = 2; //temperature is growing? 0 = false, 1 = true, 2 = avg==curtemp==threshold
 		String temp1 = "";
+		if(avg < curtemp)
+			growing = 1;
 		if(avg > curtemp)
-			growing = true;
-		if(growing) {
+			growing = 0;
+		System.out.println("avg: " + avg + "; curtemp: " +curtemp + "; thr: " +threshold);
+		if(growing == 1) {
 			temp1 = "GROWING UP.";
-			if(curtemp < threshold) {
+			
+			if(curtemp <= threshold) {
 				temp1 += "THR ABOVE";
 			}
 			else {
 				temp1 += "THR DOWN";
 			}
 		}
-		else{
+		else if(growing == 0) {
 			temp1 = "GROWING DOWN.";
-			if(curtemp > threshold) {
+			if(curtemp >= threshold) {
 				temp1 += "THR DOWN";
 			}
 			else {
 				temp1 += "THR ABOVE";
 			}
 		}
-		new Paho().send("symptoms/temperature", temp1);
+		if(!temp.equals("")) //if temperature not stable
+			p.send("symptoms/temperature", temp1);		
 		
 		//symptoms sent. Analysis work is finished. Now Decision comes into play
+		p.finalize();
 		
 	}
 
