@@ -75,12 +75,12 @@ then
 		var String goal = Windows_symptom.state.toString
 		//logDebug("mylogs", "goal win:"+goal)
 		if(goal.equals("GETTING TO DATE TO OPEN WINDOWS")) {
-			//notify open windows to execution
-			val results = executeCommandLine("java -jar Execution.jar \"open windows: \"", 5000)
+			//notify open windows to StoreDecision
+			val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
 		}
 		else if(goal.equals("GETTING TO DATE TO CLOSE WINDOWS")) {
-			//notify close windows to execution
-			val results = executeCommandLine("java -jar Execution.jar \"close windows: \"", 5000)
+			//notify close windows to StoreDecision
+			val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
 		}
 	}
 end
@@ -94,7 +94,7 @@ then
 		//logDebug("mylogs", "goal elec:"+goal)
 		if(electricity_goal.equals("ELEC_MIN")) {
 			val String room = s.substring(0, s.length() - 5).toLowerCase
-			val results = executeCommandLine("java -jar Execution.jar \"close lights: \" \"" + room + "\"", 5000)
+			val results = executeCommandLine("java -jar StoreDecision.jar \"close lights: \" \"" + room + "\"", 5000)
 			//logDebug( "mylogs", "RESULTS=" + results )
 		}
 	}
@@ -110,15 +110,15 @@ then
 		if(goal.contains("GROWING UP")) {
 			if(goal.endsWith("THR DOWN") && temp_goal.contains("FRESH")) {
 				//open windows and decrease temperature
-				val results = executeCommandLine("java -jar Execution.jar \"open windows: \"", 5000)
-				val results = executeCommandLine("java -jar Execution.jar \"temperature: \" \"" + threshold + "\"", 5000)
+				val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
+				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
 		}
 		else if(goal.contains("GROWING DOWN")) {
 			if(goal.endsWith("THR ABOVE") && temp_goal.contains("WARM")) {
 				//open windows and decrease temperature
-				val results = executeCommandLine("java -jar Execution.jar \"close windows: \"", 5000)
-				val results = executeCommandLine("java -jar Execution.jar \"temperature: \" \"" + threshold + "\"", 5000)
+				val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
+				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
 		}
 	}
@@ -133,7 +133,7 @@ when
 then
 	var String todo = "close"
 	if(LivingRoom_Windows_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " window: \" \"LivingRoom_Windows_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"LivingRoom_Windows_l1\"", 5000)
 end
  
 rule "Turn window on"
@@ -142,7 +142,7 @@ when
 then
 	var String todo = "close"
 	if(LivingRoom_Windows_l2.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " window: \" \"LivingRoom_Windows_l2\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"LivingRoom_Windows_l2\"", 5000)
 end
 
 rule "Turn window on"
@@ -151,7 +151,7 @@ when
 then
 	var String todo = "close"
 	if(LivingRoom_Windows_l3.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " window: \" \"LivingRoom_Windows_l3\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"LivingRoom_Windows_l3\"", 5000)
 end
 
 rule "Turn window on"
@@ -160,7 +160,7 @@ when
 then
 	var String todo = "close"
 	if(Kitchen_Windows_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " window: \" \"Kitchen_Windows_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"Kitchen_Windows_l1\"", 5000)
 end
 
 rule "Turn window on"
@@ -169,7 +169,7 @@ when
 then
 	var String todo = "close"
 	if(Kitchen_Windows_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " window: \" \"Kitchen_Windows_l2\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"Kitchen_Windows_l2\"", 5000)
 end
 
 rule "Turn window on"
@@ -178,7 +178,7 @@ when
 then
 	var String todo = "close"
 	if(SleepingRoom_Windows_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " window: \" \"SleepingRoom_Windows_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"SleepingRoom_Windows_l1\"", 5000)
 end
 
 rule "Turn window on"
@@ -187,7 +187,7 @@ when
 then
 	var String todo = "close"
 	if(Bathroom_Windows_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " window: \" \"Bathroom_Windows_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"Bathroom_Windows_l1\"", 5000)
 end
 
 
@@ -201,7 +201,7 @@ then
 	logDebug("mylogs", "Turn light 1 on " + LivingRoom_Lights_l1.state )
 	if(LivingRoom_Lights_l1.state == ON) todo = "open"
 	logDebug("mylogs", "Turn light 1 on "+todo)
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " light: \" \"LivingRoom_Lights_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " light: \" \"LivingRoom_Lights_l1\"", 5000)
 	logDebug("mylogs", results)
 end
 
@@ -213,7 +213,7 @@ then
 	if(LivingRoom_Lights_l2.state == ON) todo = "open"
 	logDebug("mylogs", "living room light l2 is: "+LivingRoom_Lights_l2.state)
 	logDebug("mylogs", "command is "+todo)
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " light: \" \"LivingRoom_Lights_l2\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " light: \" \"LivingRoom_Lights_l2\"", 5000)
 end
 
 rule "Turn light on"
@@ -222,7 +222,7 @@ when
 then
 	var String todo = "close"
 	if(LivingRoom_Lights_l3.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " light: \" \"LivingRoom_Lights_l3\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " light: \" \"LivingRoom_Lights_l3\"", 5000)
 	//logDebug( "mylogs", "RESULTS=" + results )	
 end
 
@@ -232,7 +232,7 @@ when
 then
 	var String todo = "close"
 	if(Kitchen_Lights_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " light: \" \"Kitchen_Lights_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " light: \" \"Kitchen_Lights_l1\"", 5000)
 end
 
 rule "Turn light on"
@@ -241,7 +241,7 @@ when
 then
 	var String todo = "close"
 	if(Kitchen_Lights_l2.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " light: \" \"Kitchen_Lights_l2\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " light: \" \"Kitchen_Lights_l2\"", 5000)
 end
 
 rule "Turn light on"
@@ -250,7 +250,7 @@ when
 then
 	var String todo = "close"
 	if(SleepingRoom_Lights_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " light: \" \"SleepingRoom_Lights_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " light: \" \"SleepingRoom_Lights_l1\"", 5000)
 end
 
 rule "Turn light on"
@@ -259,7 +259,7 @@ when
 then
 	var String todo = "close"
 	if(SleepingRoom_Lights_l2.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " light: \" \"SleepingRoom_Lights_l2\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " light: \" \"SleepingRoom_Lights_l2\"", 5000)
 end
 
 rule "Turn light on"
@@ -268,5 +268,5 @@ when
 then
 	var String todo = "close"
 	if(Bathroom_Lights_l1.state == ON) todo = "open"
-	val results = executeCommandLine("java -jar Execution.jar \"" + todo + " light: \" \"Bathroom_Lights_l1\"", 5000)
+	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " light: \" \"Bathroom_Lights_l1\"", 5000)
 end
