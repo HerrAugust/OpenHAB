@@ -89,14 +89,13 @@ rule "Electricity goal"
 when
 	Item Electricity_symptom received update
 then
-	if(Electricity_symptom.state instanceof String) {
-		var String goal = Electricity_symptom.state.toString
-		//logDebug("mylogs", "goal elec:"+goal)
-		if(electricity_goal.equals("ELEC_MIN")) {
-			val String room = s.substring(0, s.length() - 5).toLowerCase
-			val results = executeCommandLine("java -jar StoreDecision.jar \"close lights: \" \"" + room + "\"", 5000)
-			//logDebug( "mylogs", "RESULTS=" + results )
-		}
+	logDebug("mylogs", "sdhiusahdusaihdsuai " +Electricity_symptom.state.toString)
+	var String goal = Electricity_symptom.state.toString
+	logDebug("mylogs", "goal elec:"+goal)
+	if(electricity_goal.equals("ELEC_MIN")) {
+		val String room = goal.substring(0, s.length() - 5).toLowerCase //VOID = 5
+		val results = executeCommandLine("java -jar StoreDecision.jar \"close lights: \" \"" + room + "\"", 5000)
+		logDebug( "mylogs", "RESULTS=" + results )
 	}
 end
 
