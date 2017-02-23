@@ -20,8 +20,11 @@ public class StoreDecision {
         if(args.length == 0)return;
         Storage s = new Storage();
         
-        s.write("decision", "value", args[0]);        
-        
+        String val = "\"" + args[0];
+        if(args.length > 1)
+        	val += " " + args[1];
+        val += "\"";
+        s.write("decision", "value", val);        
     }
     
 }
