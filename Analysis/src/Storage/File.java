@@ -1,6 +1,7 @@
 package Storage;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,7 +32,7 @@ public class File {
 		List<String> res = null;
 		try {
 			path = Paths.get(relPath);
-			res = Files.readAllLines(path);
+			res = Files.readAllLines(path,Charset.defaultCharset());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
