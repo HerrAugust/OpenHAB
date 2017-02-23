@@ -9,7 +9,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class Paho {
 	
 	private final String broker = "tcp://localhost:1883";
-	private final String clientId = "Paho Sensor";
+	private final String clientId = "Paho Sensor ";
 	private final int qos = 2;
 	private MqttClient sampleClient = null;
 	private MemoryPersistence persistence;
