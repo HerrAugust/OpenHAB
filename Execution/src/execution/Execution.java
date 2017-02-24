@@ -37,6 +37,8 @@ public class Execution {
             if (!decision.isEmpty()) {
                 s = new Storage();
                 s.deleteAll("decision");
+                s = new Storage();
+                s.truncate("decision"); //needed because previous instruction not working in past versions of MySQL
 
                 for (int j = 0; j < decision.size(); j++) {
                     String sym = (String) decision.get(j)[1];

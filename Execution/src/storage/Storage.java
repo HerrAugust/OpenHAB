@@ -56,6 +56,19 @@ public class Storage {
             close();
         }
     }
+    
+    public void truncate(String table) {
+    	try {
+            stmt = conn.createStatement();
+            String sql;
+            sql = "TRUNCATE TABLE " + table;
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+    }
 
     /**
      * Overwrites a single row, passing the integer id

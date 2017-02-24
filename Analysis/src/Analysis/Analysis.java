@@ -32,7 +32,7 @@ public class Analysis {
 			int tempsize = temp.size();
 			boolean cond2 = false;
 			if(tempsize > 2 )
-				cond2 = (float) temp.get(0)[1] - (float) temp.get(1)[1] > 2.0f;
+				cond2 = (float) temp.get(0)[1] - (float) temp.get(1)[1] > 5.0f;
 			if( tempsize > 2 && cond2 || ((float) temp.get(0)[1] > 30 || (float) temp.get(0)[1] < -10) ) {
 				s = new Storage();
 				s.delete("temperature", (int)temp.get(0)[0]);
