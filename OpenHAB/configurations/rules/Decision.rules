@@ -74,13 +74,13 @@ then
 	if(date_beg != null) { //date_beg != null means if there is Windows goal
 		var String goal = Windows_symptom.state.toString
 		logDebug("mylogs", "goal win:"+goal)
-		if(goal.equals("GETTING TO DATE TO OPEN WINDOWS")) {
+		if(goal != null && goal.equals("GETTING TO DATE TO OPEN WINDOWS")) {
 			//notify open windows to StoreDecision
 			val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
 			//Windows_symptom.state, TODO change to "" otherwhise this goal will be executed forever
 			postUpdate(Windows_symptom, "")
 		}
-		else if(goal.equals("GETTING TO DATE TO CLOSE WINDOWS")) {
+		else if(goal != null && goal.equals("GETTING TO DATE TO CLOSE WINDOWS")) {
 			//notify close windows to StoreDecision
 			val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
 			//Windows_symptom.state, TODO change to "" otherwhise this goal will be executed forever
@@ -93,10 +93,9 @@ rule "Electricity goal"
 when
 	Item Electricity_symptom received update
 then
-	logDebug("mylogs", "sdhiusahdusaihdsuai " +Electricity_symptom.state.toString)
 	var String goal = Electricity_symptom.state.toString
 	logDebug("mylogs", "goal elec:"+goal)
-	if(electricity_goal.equals("ELEC_MIN") && goal.contains("VOID")) { //example: kitchen VOID
+	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && goal.contains("VOID")) { //example: kitchen VOID
 		val String room = goal.substring(0, goal.length() - 5).toLowerCase //VOID = 5
 		val results = executeCommandLine("java -jar StoreDecision.jar \"close lights: \" \"" + room + "\"", 5000)
 		logDebug( "mylogs", "RESULTS=" + results )
@@ -110,14 +109,14 @@ then
 	if(Temperature_symptom.state instanceof String && temp_goal != null && !temp_goal.equals("")) {
 		var String goal = Temperature_symptom.state.toString
 		//logDebug("mylogs", "goal temp:"+goal)
-		if(goal.contains("GROWING UP")) {
+		if(goal != null && goal.contains("GROWING UP")) {
 			if(goal.endsWith("THR DOWN") && temp_goal.contains("FRESH")) {
 				//open windows and decrease temperature
 				val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
 				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
 		}
-		else if(goal.contains("GROWING DOWN")) {
+		else if(goal != null && goal.contains("GROWING DOWN")) {
 			if(goal.endsWith("THR ABOVE") && temp_goal.contains("WARM")) {
 				//open windows and decrease temperature
 				val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
