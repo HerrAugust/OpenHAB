@@ -109,21 +109,21 @@ then
 	if(Temperature_symptom.state instanceof String && temp_goal != null && !temp_goal.equals("")) {
 		var String goal = Temperature_symptom.state.toString
 		//logDebug("mylogs", "goal temp:"+goal)
-		if(goal != null && goal.contains("GROWING UP")) {
+		if(goal != null && goal.contains("GROWING UP")) { //case symptom is temperature growing up
 			if(goal.endsWith("THR DOWN") && temp_goal.contains("FRESH")) {
 				//open windows and decrease temperature
 				val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
 				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
 		}
-		else if(goal != null && goal.contains("GROWING DOWN")) {
+		else if(goal != null && goal.contains("GROWING DOWN")) { //case symptom is temperature growing down
 			if(goal.endsWith("THR ABOVE") && temp_goal.contains("WARM")) {
 				//open windows and decrease temperature
 				val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
 				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
 		}
-		else if(goal != null && goal.contains("STABILITY")) {
+		else if(goal != null && goal.contains("STABILITY")) { //case symptom is stability
 			String todo = "close";
 			if(temp_goal.contains("WARM")) {
 				if(goal.endsWith("THR DOWN")) {

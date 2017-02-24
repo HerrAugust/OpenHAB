@@ -101,7 +101,7 @@ public class Analysis {
 			float curtemp = (float) temp.get(0)[1];
 			for(Object[] o : temp) {
 				if(first) { first = false; continue; }
-				avg = (float)o[1];
+				avg += (float)o[1];
 			}
 			avg = avg / 5;
 				//analysis of temperature growing graph

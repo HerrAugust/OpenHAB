@@ -18,7 +18,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import Storage.Storage;
 
 public class Paho implements MqttCallback {
-	
+	private static float lastTemperature = 100.0f;
 	public static void main(String[] args) throws InterruptedException {
 		try {
 			new Paho();
@@ -121,6 +121,10 @@ public class Paho implements MqttCallback {
 			fields = "value";
 		}
 		else if(topic.endsWith("temperature")) {
+			float temperature = Float.parseFloat(new String(msg.getPayload()));
+			if(temperature == lastTemperature)
+				return;
+			lastTemperature = temperature;
 			overwrite = false;
 			table = "temperature";
 			fields = "degrees";
