@@ -922,6 +922,7 @@ public class Sensor extends javax.swing.JFrame {
         //System.out.println(Windows_Kitchen);
         Windows_Number = Windows_LivingRoom + Windows_Kitchen + Windows_SleepingRoom + Windows_Bathroom;
         labelWindows.setText("Windows Open: " + Windows_Number + "/7");
+        publishData();
     }//GEN-LAST:event_windowKT1ItemStateChanged
 
     private void windowKT2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_windowKT2ItemStateChanged
