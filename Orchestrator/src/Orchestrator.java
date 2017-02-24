@@ -12,20 +12,21 @@ public class Orchestrator {
 	private final static String JARfolder = System.getProperty("user.home") + "\\Documents\\Ruscio\\OpenHAB\\OpenHAB\\";
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
+		String t = "java -jar ";
 		//Sensor
-		Runtime.getRuntime().exec(JARfolder + "Sensor.jar");
+		Runtime.getRuntime().exec(t+JARfolder + "Sensor.jar");
 		
 		//Monitoring
-		Runtime.getRuntime().exec(JARfolder + "Monitoring.jar"); //open forever
+		Runtime.getRuntime().exec(t+JARfolder + "Monitoring.jar"); //open forever
+		
+		//Execution
+		Runtime.getRuntime().exec(t+JARfolder + "Execution.jar");
 		
 		//Analysis
-		Runtime.getRuntime().exec(JARfolder + "Analysis.jar"); //open forever
+		Runtime.getRuntime().exec(t+JARfolder + "Analysis.jar"); //open forever
 		
 		//Decision
 		//will execute automatically (OpenHAB). Expected it is already running
-		
-		//Execution
-		Runtime.getRuntime().exec(JARfolder + "Execution.jar");
-		
+				
 	}
 }
