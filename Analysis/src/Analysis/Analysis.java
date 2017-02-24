@@ -131,6 +131,15 @@ public class Analysis {
 					temp1 += "THR ABOVE";
 				}
 			}
+			else {
+				temp1 = "STABILITY.";
+				if(curtemp >= threshold) {
+					temp1 += "THR DOWN";
+				}
+				else {
+					temp1 += "THR ABOVE";
+				}
+			}
 			if(!temp.equals("")) //if temperature not stable
 				p.send("symptoms/temperature", temp1);		
 			

@@ -11,7 +11,7 @@ var Number threshold //if goal is of temperature
 var Date date_beg = null
 var Date date_end = null
 
-var boolean isdaytime = false
+var boolean isdaytime = true
 
 var Timer windowsAlarm = null
 
@@ -121,6 +121,18 @@ then
 				//open windows and decrease temperature
 				val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
 				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
+			}
+		}
+		else if(goal != null && goal.contains("STABILITY")) {
+			if(temp_goal.contains("WARM")) {
+				val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
+				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
+			}
+			else if(temp_goal.contains("FRESH")) {
+				if(!daytime) {
+					val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
+					val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
+				}
 			}
 		}
 	}
