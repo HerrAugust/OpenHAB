@@ -140,7 +140,7 @@ public class PahoMsgArrived implements MqttCallback {
                     break;
 
                 case "LivingRoom_Lights_l3":
-                    if (!sensor.getLightLR2().isSelected()) {
+                    if (!sensor.getLightLR3().isSelected()) {
                         sensor.getLightLR3().setSelected(true);
                     }
                     break;
@@ -164,7 +164,7 @@ public class PahoMsgArrived implements MqttCallback {
                         sensor.getLightSR2().setSelected(true);
                     }
                     break;
-                case "BathRoom_Lights_l1":
+                case "Bathroom_Lights_l1":
                     if (!sensor.getLightBR1().isSelected()) {
                         sensor.getLightBR1().setSelected(true);
                     }

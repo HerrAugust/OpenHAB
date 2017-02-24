@@ -806,7 +806,7 @@ public class Sensor extends javax.swing.JFrame {
             LightSR2.setBackground(Color.YELLOW);
             Lights_SleepingRoom++;
         } else {
-            SleepingRoom_Lights_l2 = "ON";
+            SleepingRoom_Lights_l2 = "OFF";
             LightSR2.setText("OFF");
             LightSR2.setBackground(Color.GRAY);
             Lights_SleepingRoom--;

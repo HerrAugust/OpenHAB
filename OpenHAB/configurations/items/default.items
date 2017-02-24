@@ -35,9 +35,9 @@ Number Temperature_SleepingRoom	{mqtt="<[mybroker:home/sleepingroom/temperature:
 Number Temperature_Bathroom		{mqtt="<[mybroker:home/bathroom/temperature:state:default]"}
 
 Number People_LivingRoom		{mqtt="<[mybroker:home/livingroom/people:state:default]"}
-Number People_Kitchen			{mqtt="<[mybroker:home/kitchen/people:state:default]"}
 Number People_SleepingRoom		{mqtt="<[mybroker:home/sleepingroom/people:state:default]"}
 Number People_Bathroom			{mqtt="<[mybroker:home/bathroom/people:state:default]"}
+Number People_KitchenRoom		{mqtt="<[mybroker:home/kitchen/people:state:default]"}
 
 String Windows_symptom			{mqtt="<[mybroker:symptoms/windows:state:default]"}
 String Electricity_symptom		{mqtt="<[mybroker:symptoms/electricity:state:default]"}
