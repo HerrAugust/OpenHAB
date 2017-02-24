@@ -691,7 +691,6 @@ public class Sensor extends javax.swing.JFrame {
     }//GEN-LAST:event_sliderTempStateChanged
 
     private void lightLR1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lightLR1ItemStateChanged
-        // TODO add your handling code here:
         if (lightLR1.isSelected()) {
             LivingRoom_Lights_l1 = "ON";
             lightLR1.setText("ON");
@@ -710,7 +709,6 @@ public class Sensor extends javax.swing.JFrame {
     }//GEN-LAST:event_lightLR1ItemStateChanged
 
     private void lightLR2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lightLR2ItemStateChanged
-        // TODO add your handling code here:
         if (lightLR2.isSelected()) {
             LivingRoom_Lights_l2 = "ON";
             lightLR2.setText("ON");
@@ -729,7 +727,6 @@ public class Sensor extends javax.swing.JFrame {
     }//GEN-LAST:event_lightLR2ItemStateChanged
 
     private void lightLR3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_lightLR3ItemStateChanged
-        // TODO add your handling code here:
 
         if (lightLR3.isSelected()) {
             LivingRoom_Lights_l3 = "ON";
@@ -749,7 +746,6 @@ public class Sensor extends javax.swing.JFrame {
     }//GEN-LAST:event_lightLR3ItemStateChanged
 
     private void windowLR1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_windowLR1ItemStateChanged
-        // TODO add your handling code here:
         if (windowLR1.isSelected()) {
             LivingRoom_Windows_l1 = "ON";
             windowLR1.setText("OPEN");
@@ -768,7 +764,6 @@ public class Sensor extends javax.swing.JFrame {
     }//GEN-LAST:event_windowLR1ItemStateChanged
 
     private void windowLR2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_windowLR2ItemStateChanged
-        // TODO add your handling code here:
         if (windowLR2.isSelected()) {
             LivingRoom_Windows_l2 = "ON";
             windowLR2.setText("OPEN");
