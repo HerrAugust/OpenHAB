@@ -1,6 +1,7 @@
 /**
  * Monitoring starts immediately an instance of Paho client, subscribing all topics.
  * As it receives something from Sensors, it writes it into DB
+ * 
  */
 
 package Monitoring;

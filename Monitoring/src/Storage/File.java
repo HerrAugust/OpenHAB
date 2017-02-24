@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * 
  * Based on java.nio.File, it makes easier to read/write from file.
  * Example: File f = new File("ciao.txt");
  * 			List<String> s = f.readAll();

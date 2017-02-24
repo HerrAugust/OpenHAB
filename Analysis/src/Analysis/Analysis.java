@@ -2,6 +2,7 @@
  * Analysis finds symptoms.
  * Reads goals and finds symptoms according to data in DB.
  * Expects WAMP and Mosquitto.exe open
+ * 
  */
 package Analysis;
 

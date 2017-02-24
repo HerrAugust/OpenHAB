@@ -12,6 +12,7 @@ import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
+
 public class Logger {
 	
 	private String dir_path = System.getProperty("user.dir");
