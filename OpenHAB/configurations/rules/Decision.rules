@@ -124,13 +124,20 @@ then
 			}
 		}
 		else if(goal != null && goal.contains("STABILITY")) {
+			String todo = "close";
 			if(temp_goal.contains("WARM")) {
-				val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
+				if(goal.endsWith("THR DOWN")) {
+					todo = "open";
+				}
+				val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " windows: \"", 5000)
 				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
 			else if(temp_goal.contains("FRESH")) {
 				if(!daytime) {
-					val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
+					if(goal.endsWith("THR DOWN")) {
+						todo = "open";
+					}
+					val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " windows: \"", 5000)
 					val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
 				}
 			}
