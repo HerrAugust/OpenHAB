@@ -65,7 +65,7 @@ public class Analysis {
 		for(Object[] o : people) {
 			if((int) o[2] == 0) {
 				p.send("symptoms/electricity", (String) o[1] + " VOID" );
-				Thread.sleep(300);
+				Thread.sleep(1000);
 			}
 		}
 		
@@ -138,7 +138,7 @@ public class Analysis {
 		
 		//symptoms sent. Analysis work is finished. Now Decision comes into play
 		p.finalize();
-		Thread.sleep(1900);
+		Thread.sleep(2000);
 		main(null);//restart
 		
 	}

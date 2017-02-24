@@ -9,7 +9,7 @@ public class Storage {
 	static final String DB_URL = "jdbc:mysql://localhost/smarthome?useSSL=false";
 	
 	//  Database credentials
-    private final String USER = "root";
+    private final String USER = "analyzer";
     private final String PASS = "";
     private Connection conn = null;
     private Statement stmt = null;
