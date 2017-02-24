@@ -71,16 +71,20 @@ rule "Windows goal"
 when
 	Item Windows_symptom received update
 then
-	if(Windows_symptom.state instanceof String && date_beg != null) { //date_beg != null means if there is Windows goal
+	if(date_beg != null) { //date_beg != null means if there is Windows goal
 		var String goal = Windows_symptom.state.toString
-		//logDebug("mylogs", "goal win:"+goal)
+		logDebug("mylogs", "goal win:"+goal)
 		if(goal.equals("GETTING TO DATE TO OPEN WINDOWS")) {
 			//notify open windows to StoreDecision
 			val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
+			//Windows_symptom.state, TODO change to "" otherwhise this goal will be executed forever
+			postUpdate(Windows_symptom, "")
 		}
 		else if(goal.equals("GETTING TO DATE TO CLOSE WINDOWS")) {
 			//notify close windows to StoreDecision
 			val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
+			//Windows_symptom.state, TODO change to "" otherwhise this goal will be executed forever
+			postUpdate(Windows_symptom, "")
 		}
 	}
 end

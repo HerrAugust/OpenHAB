@@ -36,7 +36,7 @@ public class Execution {
             List<Object[]> decision = s.readMany("decision", new String[]{"id", "value"}, "ORDER BY id DESC LIMIT 5");
             if (!decision.isEmpty()) {
                 s = new Storage();
-                s.deleteAll("decision");
+                //s.deleteAll("decision");
 
                 for (int j = 0; j < decision.size(); j++) {
                     String sym = (String) decision.get(j)[1];

@@ -21,11 +21,13 @@ public class Analysis {
 	private final static String goalsfile = System.getProperty("user.home") + "\\Documents\\Ruscio\\OpenHAB\\OpenHAB\\high_level_goals.conf"; //read only
 	
 	public static void main(String[] args) throws MqttException, InterruptedException {				
-		//PRUNING PHASE		
-		//Check if last 2 inserted temperatures differ more than 2 degrees
+		boolean windowsopen_done = false, windowsclose_done = false;
 		while(true) {
 			File goal = new File(goalsfile);
 			Storage s = new Storage();
+			
+			//PRUNING PHASE		
+			//Check if last 2 inserted temperatures differ more than 2 degrees
 			List<Object[]> temp = s.readMany("temperature", new String[] {"id", "degrees"}, "ORDER BY id DESC LIMIT 10");
 			int tempsize = temp.size();
 			boolean cond2 = false;
@@ -68,18 +70,21 @@ public class Analysis {
 				}
 			}
 			
-			//if time is getting to windows threshold => write to symtomfile. DECISION component decides: if user has specified this goal && temperature > threshold + keep house warm => open windows; else => none
 			List<String> g = goal.readAll();
+			//if time is getting to windows threshold => write to symtomfile only one time. DECISION component decides: if user has specified this goal && temperature > threshold + keep house warm => open windows; else => none
 			int index = g.indexOf("WINDOW");
 			if(index != -1) {
 				String timebeg = g.get(index+1);
 				String timeend = g.get(index + 2);
-				if(timebeg.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
+				//without windowsopen_done check, this symptom would be sent many times, and so user cannot open/close windows when he wants
+				if(windowsopen_done == false && timebeg.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
 					p.send("symptoms/windows", "GETTING TO DATE TO OPEN WINDOWS" );
+					windowsopen_done = true;
 				}
 				
-				if(timeend.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
+				if(windowsclose_done == false && timeend.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
 					p.send("symptoms/windows", "GETTING TO DATE TO CLOSE WINDOWS" );
+					windowsclose_done = true;
 				}
 			}
 			
