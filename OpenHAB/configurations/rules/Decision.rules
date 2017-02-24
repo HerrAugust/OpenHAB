@@ -11,11 +11,7 @@ var Number threshold //if goal is of temperature
 var Date date_beg = null
 var Date date_end = null
 
-<<<<<<< HEAD
-//var boolean isdaytime = true
-=======
-var boolean isdaytime = false 
->>>>>>> e1b8fe0c0df4cfb66f2ca0bd50a5d2ffb986a079
+
 
 var Timer windowsAlarm = null
 
