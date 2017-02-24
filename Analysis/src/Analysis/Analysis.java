@@ -28,7 +28,7 @@ public class Analysis {
 			
 			//PRUNING PHASE		
 			//Check if last 2 inserted temperatures differ more than 2 degrees
-			List<Object[]> temp = s.readMany("temperature", new String[] {"id", "degrees"}, "ORDER BY id DESC LIMIT 10");
+			List<Object[]> temp = s.readMany("temperature", new String[] {"id", "degrees"}, "ORDER BY id DESC LIMIT 6");
 			int tempsize = temp.size();
 			boolean cond2 = false;
 			if(tempsize > 2 )
