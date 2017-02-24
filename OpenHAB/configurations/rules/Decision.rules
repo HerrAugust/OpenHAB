@@ -77,18 +77,15 @@ then
 		if(goal != null && goal.equals("GETTING TO DATE TO OPEN WINDOWS")) {
 			//notify open windows to StoreDecision
 			val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
-			//Windows_symptom.state, TODO change to "" otherwhise this goal will be executed forever
-			postUpdate(Windows_symptom, "")
+			//Windows_symptom.state, change to "" otherwhise this goal will be executed forever
 		}
 		else if(goal != null && goal.equals("GETTING TO DATE TO CLOSE WINDOWS")) {
 			//notify close windows to StoreDecision
 			val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
-			//Windows_symptom.state, TODO change to "" otherwhise this goal will be executed forever
-			postUpdate(Windows_symptom, "")
 		}
 	}
 end
- 
+
 rule "Electricity goal"
 when
 	Item Electricity_symptom received update
