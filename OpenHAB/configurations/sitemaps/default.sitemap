@@ -1,5 +1,5 @@
 sitemap default label="Project: Smart-Home"
-{
+{ 
     Frame label="Overview" {
         Text item=Electricity_Consumption label="Electricity consumption (last month) [%d MWatt]" icon="garden"
         Text item=Humidity label="Humidity [%d%%]" icon="garden" 
@@ -85,6 +85,12 @@ sitemap default label="Project: Smart-Home"
     	Text item=Windows_symptom label="Windows symptom [%s]"
         Text item=Electricity_symptom label="Electricity symptom [%s]"
         Text item=Temperature_symptom label="Temperature symptom [%s]"
+    }
+
+    Frame label="Goals" { //goals passing
+    	Text item=Window_goal label="Windows goal [%s]"
+        Text item=Electricity_goal label="Electricity goal [%s]"
+        Text item=Temperature_goal label="Temperature goal [%s]"
     }
 
 }

@@ -1,7 +1,7 @@
 Number Electricity_Consumption 	{mqtt="<[mybroker:home/general/electricity:state:default]"}
 Number Humidity 				{mqtt="<[mybroker:home/general/humidity:state:default]"}
 Number Temperature				{mqtt="<[mybroker:home/general/temperature:state:default]"}
- 
+
 Number LightsOn					{mqtt="<[mybroker:home/general/lights:state:default]"}
 Number Lights_LivingRoom		{mqtt="<[mybroker:home/livingroom/lights:state:default]"}
 Number Lights_Kitchen 			{mqtt="<[mybroker:home/kitchen/lights:state:default]"}
@@ -42,3 +42,7 @@ Number People_KitchenRoom		{mqtt="<[mybroker:home/kitchen/people:state:default]"
 String Windows_symptom			{mqtt="<[mybroker:symptoms/windows:state:default]"}
 String Electricity_symptom		{mqtt="<[mybroker:symptoms/electricity:state:default]"}
 String Temperature_symptom		{mqtt="<[mybroker:symptoms/temperature:state:default]"}
+
+String Electricity_goal			{mqtt="<[mybroker:goals/electricity:state:default]"}//ELEC_MIN || ELEC_OPT
+String Temperature_goal			{mqtt="<[mybroker:goals/temperature:state:default]"} //HEA_KEEP_WARM thres || HEA_KEEP_FRESH thres
+String Window_goal				{mqtt="<[mybroker:goals/window:state:default]"} //18:30-18:40

@@ -3,85 +3,71 @@ import java.text.SimpleDateFormat
 import org.openhab.core.library.types.*
  
 //High-level goals variables
-var String url = 'high_level_goals.conf'
-var String urlsymptom = 'symptom.txt'
+//var String url = 'high_level_goals.conf'
 var String electricity_goal = null
 var String temp_goal = null
 var Number threshold //if goal is of temperature
-var Date date_beg = null
-var Date date_end = null
+var String date_beg = null
+var String date_end = null
 
 
 
 var Timer windowsAlarm = null
 
-rule Startup
-when 
-	System started
+
+rule "Set window goal" //goals/window
+when
+	Item Window_goal received update
 then
-	//discover all (already) defined high-level goals
-	logDebug( "mylogs", "STARTING DECISION.RULES...." )
-	val fileReader = new java.io.FileReader(url)
-	try {
-		var String lastGoal = ""
-	    val values = new java.io.BufferedReader(fileReader) 
-	
-		var String s = values.readLine
-		while (s != null) {
-		    logDebug( "mylogs", "READ FROM FILE: " + s)
-			
-			if(s.contains("ELEC")) {
-				electricity_goal = s
-			}
-			if(s.contains("KEEP")) {
-				temp_goal = s
-			}
-			if(s.equals("WINDOW") || s.contains("KEEP") || s.contains("ELEC")) {
-				lastGoal = s
-				logDebug( "mylogs", "LAST GOAL: " + s)
-			}
-			else {
-				if(lastGoal.equals("WINDOW")) {
-					if(date_beg == null) {
-						date_beg = new SimpleDateFormat("HH:mm").parse(s)
-						logDebug( "mylogs", "SET DATE_BEG")
-					} else {
-						date_end = new SimpleDateFormat("HH:mm").parse(s)
-						logDebug( "mylogs", "SET DATE_END")
-					}
-				}
-				else if(lastGoal.contains("KEEP")) {
-					threshold = Float::parseFloat(s)
-					logDebug( "mylogs", "SET TRHESHOLD")
-				}
-			}
-			s = values.readLine
-		}
-		} finally {
-		    try { fileReader.close() } catch (Exception e) {}
-		}	
-	logDebug( "mylogs", electricity_goal )
-	logDebug( "mylogs", threshold.toString )
-	logDebug( "mylogs", date_beg.toString )
-	logDebug( "mylogs", date_end.toString )
-	logDebug( "mylogs", "END DECISION.RULES...." )
+	var String goal = Window_goal.state.toString
+	val s 	= goal.split("-")
+	date_beg = s.get(0)
+	logDebug( "mylogs", "SET DATE_BEG: " + date_beg)
+	date_end = s.get(1)
+	logDebug( "mylogs", "SET DATE_END: " + date_end)
+end 
+
+rule "Set electricity goal"
+when
+	Item Electricity_goal received update
+then
+	logDebug("mylogs", Electricity_goal.state.toString + "QUIIIIIIIIIIIIIIIIIIIIIIIIII")
+	electricity_goal = Electricity_goal.state.toString
+	logDebug("mylogs", "electricity_goal: " + electricity_goal)
 end
 
-rule "Windows goal"
+rule "Set temperature goal" //goals/temperature
+when
+	Item Temperature_goal received update
+then
+	var String 		t 			= Temperature_goal.state.toString
+	val 			s 			= t.split(" ")
+					temp_goal 	= s.get(0)
+					threshold 	= Float::parseFloat(s.get(1))
+	logDebug("mylogs", temp_goal + ": " + threshold )
+end
+
+//................................................................................
+
+rule "Windows goal" //symptoms/windows
 when
 	Item Windows_symptom received update
 then
+	logDebug("mylogs", "sdjas")
+	logDebug("mylogs", "date_beg " + date_beg)
 	if(date_beg != null) { //date_beg != null means if there is Windows goal
+		logDebug("mylogs", "shdais")
 		var String goal = Windows_symptom.state.toString
-		logDebug("mylogs", "goal win:"+goal)
+		logDebug("mylogs", "goal win:" + goal)
 		if(goal != null && goal.equals("GETTING TO DATE TO OPEN WINDOWS")) {
 			//notify open windows to StoreDecision
 			val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
-			//Windows_symptom.state, change to "" otherwhise this goal will be executed forever
+			logDebug("mylogs", results)
 		}
 		else if(goal != null && goal.equals("GETTING TO DATE TO CLOSE WINDOWS")) {
 			//notify close windows to StoreDecision
 			val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
+			logDebug("mylogs", results)
 		}
 	}
 end
@@ -91,7 +77,7 @@ when
 	Item Electricity_symptom received update
 then
 	var String goal = Electricity_symptom.state.toString
-	logDebug("mylogs", "goal elec:"+goal)
+	logDebug("mylogs", "goal elec:"+goal + "; electricity_goal:"+electricity_goal)
 	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && goal.contains("VOID")) { //example: kitchen VOID
 		val String room = goal.substring(0, goal.length() - 5).toLowerCase //VOID = 5
 		val results = executeCommandLine("java -jar StoreDecision.jar \"close lights: \" \"" + room + "\"", 5000)
@@ -99,44 +85,37 @@ then
 	}
 end
 
-rule "Temperature goal"
+rule "Temperature goal" //symptoms/temperature
 when
 	Item Temperature_symptom received update
 then
+	logDebug("mylogs", "temp. goal: " + temp_goal + "; symptom: " + Temperature_symptom.state.toString)
 	if(temp_goal != null && !temp_goal.equals("")) {
 		var String goal = Temperature_symptom.state.toString
-		//logDebug("mylogs", "goal temp:"+goal)
+		logDebug("mylogs", "goal temp:" + goal)
 		if(goal != null && goal.contains("GROWING UP")) { //case symptom is temperature growing up
 			if(goal.endsWith("THR DOWN") && temp_goal.contains("FRESH")) {
 				//open windows and decrease temperature
 				val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
-				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
+				results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
+				logDebug("mylogs", results)
 			}
 		}
 		else if(goal != null && goal.contains("GROWING DOWN")) { //case symptom is temperature growing down
 			if(goal.endsWith("THR ABOVE") && temp_goal.contains("WARM")) {
 				//open windows and decrease temperature
 				val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
-				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
+				results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
 		}
 		else if(goal != null && goal.contains("STABILITY")) { //case symptom is stability
-			String todo = "close";
-			if(temp_goal.contains("WARM")) {
-				if(goal.endsWith("THR DOWN")) {
-					todo = "open";
-				}
-				val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " windows: \"", 5000)
-				val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
+			if(temp_goal.contains("WARM") && goal.contains("THR ABOVE")) {
+				val results = executeCommandLine("java -jar StoreDecision.jar \"close windows: \"", 5000)
+				results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
-			else if(temp_goal.contains("FRESH")) {
-				if(!daytime) {
-					if(goal.endsWith("THR DOWN")) {
-						todo = "open";
-					}
-					val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " windows: \"", 5000)
-					val results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
-				}
+			else if(temp_goal.contains("FRESH") && goal.endsWith("THR DOWN")) {
+				val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
+				results = executeCommandLine("java -jar StoreDecision.jar \"temperature: \" \"" + threshold + "\"", 5000)
 			}
 		}
 	}
