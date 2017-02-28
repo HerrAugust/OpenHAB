@@ -1,19 +1,16 @@
 package paho;
 
-import java.util.Date;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class Paho implements MqttCallback {
+public class Paho {
 	
 	private final String broker = "tcp://localhost:1883";
-	private final String clientId = "Paho Analysis";
+	private final String clientId = "Paho Execution";
 	private final int qos = 2;
 	private MqttClient sampleClient = null;
 	private MemoryPersistence persistence;
@@ -24,10 +21,6 @@ public class Paho implements MqttCallback {
 		MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
         sampleClient.connect(connOpts);
-        sampleClient.setCallback(this);
-        
-        sampleClient.subscribe("goals/window");
-        sampleClient.subscribe("goals/temperature");
 	}
 	
 	public void send(String topic, String content) {
@@ -51,32 +44,4 @@ public class Paho implements MqttCallback {
 		sampleClient.disconnect();
         System.out.println("Disconnected");
 	}
-
-	@Override
-	public void connectionLost(Throwable arg0) {
-
-	}
-
-	@Override
-	public void deliveryComplete(IMqttDeliveryToken arg0) {
-
-	}
-
-	@Override
-	public void messageArrived(String topic, MqttMessage message) throws Exception {		
-		switch(topic.split("/")[1]) {
-		case "window":
-			Analysis.Analysis.window_goal = "WINDOW";
-			Analysis.Analysis.date_beg = new String(message.getPayload()).split("-")[0];
-			Analysis.Analysis.date_end = new String(message.getPayload()).split("-")[1];
-			Analysis.Analysis.windowsopen_done = false;
-			Analysis.Analysis.windowsclose_done = false;
-			break;
-		case "temperature":
-			Analysis.Analysis.threshold = Float.parseFloat(new String(message.getPayload()).split(" ")[1]);
-			break;
-		}
-		
-	}
-	
 }

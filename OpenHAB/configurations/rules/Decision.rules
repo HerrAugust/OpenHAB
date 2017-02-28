@@ -19,7 +19,7 @@ var boolean livingroomvoid		= true
 var Timer windowsAlarm = null
 
 
-rule "Set window goal" //goals/window
+rule "Set window goal" //goals/window. matches "HH:mm-HH:mm" (example: 15:32-15:44)
 when
 	Item Window_goal received update
 then
@@ -31,16 +31,16 @@ then
 	logDebug( "mylogs", "SET DATE_END: " + date_end)
 end 
 
-rule "Set electricity goal"
+rule "Set electricity goal" //either ELEC_MIN or ELEC_OPT
 when
 	Item Electricity_goal received update
 then
-	logDebug("mylogs", Electricity_goal.state.toString + "QUIIIIIIIIIIIIIIIIIIIIIIIIII")
+	//logDebug("mylogs", Electricity_goal.state.toString + "QUIIIIIIIIIIIIIIIIIIIIIIIIII")
 	electricity_goal = Electricity_goal.state.toString
-	logDebug("mylogs", "electricity_goal: " + electricity_goal)
+	//logDebug("mylogs", "electricity_goal: " + electricity_goal)
 end
 
-rule "Set temperature goal" //goals/temperature
+rule "Set temperature goal" //goals/temperature. matches "HEA_KEEP_FRESH 18.2" or "HEA_KEEP_WARM 19.0"
 when
 	Item Temperature_goal received update
 then
@@ -57,7 +57,6 @@ rule "Windows goal" //symptoms/windows
 when
 	Item Windows_symptom received update
 then
-	logDebug("mylogs", "sdjas")
 	logDebug("mylogs", "date_beg " + date_beg)
 	if(date_beg != null) { //date_beg != null means if there is Windows goal
 		logDebug("mylogs", "shdais")
@@ -65,7 +64,9 @@ then
 		logDebug("mylogs", "goal win:" + goal)
 		if(goal != null && goal.equals("GETTING TO DATE TO OPEN WINDOWS")) {
 			//notify open windows to StoreDecision
+			logDebug("mylogs", "going to open all windows")
 			val results = executeCommandLine("java -jar StoreDecision.jar \"open windows: \"", 5000)
+			logDebug("mylogs", "all windows opened??")
 			logDebug("mylogs", results)
 		}
 		else if(goal != null && goal.equals("GETTING TO DATE TO CLOSE WINDOWS")) {
@@ -81,11 +82,11 @@ when
 	Item Electricity_symptom received update
 then
 	var String goal = Electricity_symptom.state.toString
-	logDebug("mylogs", "goal elec:"+goal + "; electricity_goal:"+electricity_goal)
+	//logDebug("mylogs", "goal elec:"+goal + "; electricity_goal:"+electricity_goal)
 	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && goal.contains("VOID")) { //example: kitchen VOID
 		val String room = goal.substring(0, goal.length() - 5).toLowerCase //VOID = 5
 		val results = executeCommandLine("java -jar StoreDecision.jar \"close lights: \" \"" + room + "\"", 5000)
-		logDebug( "mylogs", "RESULTS=" + results )
+		//logDebug( "mylogs", "RESULTS=" + results )
 	}
 end
 

@@ -22,6 +22,9 @@ import java.awt.Color;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+
+import org.eclipse.paho.client.mqttv3.MqttException;
+
 import javax.swing.SpinnerNumberModel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -152,7 +155,11 @@ public class GoalGUI {
 					GoalsChecking.check(goals);
 				}
 				catch(GoalsConflictException e1) {
-					JOptionPane.showMessageDialog(null, "Some goals are in conflict: " + e1.cause, "Goals conflict", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Some goals are in conflict: " + e1.getMessage(), "Goals conflict", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				catch(MqttException e2) {
+					JOptionPane.showMessageDialog(null, "MqttExeption in GoalSpec" + e2.getMessage(), "MQTT exception", JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}

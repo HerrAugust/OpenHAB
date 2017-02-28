@@ -2,6 +2,8 @@ package Goals;
 
 import java.util.List;
 
+import org.eclipse.paho.client.mqttv3.MqttException;
+
 import Decision.DecisionBridge;
 import Goals.Goal.goal_name;
 
@@ -9,7 +11,7 @@ public class GoalsChecking {
 	
 	private final static int MIN_NO = 10; //number of minutes for windows
 
-	public static void check(List<Goal> goals) throws GoalsConflictException {
+	public static void check(List<Goal> goals) throws GoalsConflictException, MqttException {
 		boolean problem = false;
 		String cause = null;
 		

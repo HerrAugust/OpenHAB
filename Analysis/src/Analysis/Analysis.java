@@ -2,7 +2,7 @@
  * Analysis finds symptoms.
  * Reads goals and finds symptoms according to data in DB.
  * Expects WAMP and Mosquitto.exe open
- * 
+ * Note: if you set goals when Analysis is running, Analysis must be reloaded!
  */
 package Analysis;
 
@@ -14,16 +14,22 @@ import java.util.List;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 
-import Storage.File;
+//import Storage.File;
 import paho.Paho;
 
 public class Analysis {
-    private final static String goalsfile = System.getProperty("user.home") + "\\Documents\\Ruscio\\OpenHAB\\OpenHAB\\high_level_goals.conf"; //read only
+    //Version with file:
+	//private final static String goalsfile = System.getProperty("user.home") + "\\Documents\\Ruscio\\OpenHAB\\OpenHAB\\high_level_goals.conf"; //read only
+	public static String window_goal = null;
+	public static float threshold = 100;
+	public static String date_beg, date_end;
+	public static boolean windowsopen_done = false, windowsclose_done = false;
 
     public static void main(String[] args) throws MqttException, InterruptedException {
-        boolean windowsopen_done = false, windowsclose_done = false;
+    	System.out.println("Welcome in Analysis");
+        Paho p = new Paho();
         while (true) {
-            File goal = new File(goalsfile);
+            //Version with file: File goal = new File(goalsfile);
             Storage s = new Storage();
 
             //PRUNING PHASE		
@@ -55,7 +61,7 @@ public class Analysis {
             }
 
             //SYMPTOMS CHECKING
-            Paho p = new Paho();
+            //p = new Paho();
             //getting people in all areas
             s = new Storage();
             List<Object[]> people = s.readMany("room", new String[]{"id", "name", "peopleIn"}, "");
@@ -64,23 +70,25 @@ public class Analysis {
             for (Object[] o : people) {
                 if ((int) o[2] == 0) {
                     p.send("symptoms/electricity", (String) o[1] + " VOID");
-                    Thread.sleep(300);
                 }
+                else { //else case added tonight
+                	p.send("symptoms/electricity", (String) o[1] + " FULL");
+                }
+                Thread.sleep(1000);
             }
 
-            List<String> g = goal.readAll();
+            //Version with file:
+            //List<String> g = goal.readAll();
+            
             //if time is getting to windows threshold => write to symtomfile only one time. DECISION component decides: if user has specified this goal && temperature > threshold + keep house warm => open windows; else => none
-            int index = g.indexOf("WINDOW");
-            if (index != -1) {
-                String timebeg = g.get(index + 1);
-                String timeend = g.get(index + 2);
+            if (window_goal != null) { //if window goal set
                 //without windowsopen_done check, this symptom would be sent many times, and so user cannot open/close windows when he wants
-                if (windowsopen_done == false && timebeg.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
+                if (windowsopen_done == false && date_beg.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
                     p.send("symptoms/windows", "GETTING TO DATE TO OPEN WINDOWS");
                     windowsopen_done = true;
                 }
 
-                if (windowsclose_done == false && timeend.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
+                if (windowsclose_done == false && date_end.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
                     p.send("symptoms/windows", "GETTING TO DATE TO CLOSE WINDOWS");
                     windowsclose_done = true;
                 }
@@ -89,13 +97,6 @@ public class Analysis {
             //if temperature is getting to threshold, reason about last 5 temperatures to predict how temperature will grow
             //see documentation for more details. note: temp.get(0)[2] is current temperature.
             //getting avg of past temperatures and threshold
-            int i;
-            for (i = 0; i < g.size(); i++) {
-                if (g.get(i).contains("KEEP")) {
-                    break;
-                }
-            }
-            float threshold = Float.parseFloat(g.get(++i)); //temperature threshold
             boolean first = true; //temp variables for loop
             float avg = 0.0f; //avg of past temperatures
             if (temp.size() > 2) {
@@ -143,14 +144,17 @@ public class Analysis {
                 }
                 if (!temp.equals("")) //if temperature not stable
                 {
-                    p.send("symptoms/temperature", temp1);
+                	if(threshold != 100) { //if temperature goal is set
+                		p.send("symptoms/temperature", temp1);
+                	}
                 }
             }
 
             //symptoms sent. Analysis work is finished. Now Decision comes into play
-            p.finalize();
+            //p.finalize();
             Thread.sleep(1900);
         }
+        
     }
 
 }

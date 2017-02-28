@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -1001,7 +1002,7 @@ public class Sensor extends javax.swing.JFrame {
     }//GEN-LAST:event_sliderEleStateChanged
 
     @SuppressWarnings("empty-statement")
-    public static void main(String args[]) throws MqttException, InterruptedException, IOException {
+    public static void main(String args[]) throws InterruptedException, IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1027,7 +1028,12 @@ public class Sensor extends javax.swing.JFrame {
         k.publishData();
         //for(;;){
         //Thread.sleep(4000);
-        PahoMsgArrived p = new PahoMsgArrived(k);
+        try {
+			PahoMsgArrived p = new PahoMsgArrived(k);
+		} catch (MqttException e) {
+			JOptionPane.showMessageDialog(null, "MQTT exception in Sensor.java. However, program will not stop", "MQTT exception", JOptionPane.INFORMATION_MESSAGE);
+			e.printStackTrace();
+		}
         //while (true);
 
         //}
