@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.SpinnerNumberModel;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import javax.swing.JCheckBox;
 
 public class GoalGUI {
@@ -217,12 +220,12 @@ public class GoalGUI {
 		JLabel lblCloseTime = new JLabel("Close time");
 		
 		textField = new JTextField();
-		textField.setText("08:00");
+		textField.setText(new SimpleDateFormat("HH:mm").format(new Date()));
 		textField.setToolTipText("format: [0-1][0-9]:[0-5][0-9]");
 		textField.setColumns(5);
 		
 		textField_1 = new JTextField();
-		textField_1.setText("08:30");
+		textField_1.setText(new SimpleDateFormat("HH:mm").format(new Date()));
 		textField_1.setToolTipText("format: [0-1][0-9]:[0-5][0-9]");
 		textField_1.setColumns(5);
 		
