@@ -31,7 +31,7 @@ public class Sensor extends javax.swing.JFrame {
     public Sensor() {
 
         initComponents();
-        temp.setText("" + temperature + " Â°C");
+        temp.setText("" + temperature + " °C");
         hum.setText("" + humidity + " %");
         ele.setText("" + electricity + " Kwh");
 
@@ -110,7 +110,7 @@ public class Sensor extends javax.swing.JFrame {
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Temperature (Â°C):");
+        jLabel1.setText("Temperature (°C):");
 
         sliderTemp.setMajorTickSpacing(2);
         sliderTemp.setMaximum(30);
@@ -687,7 +687,7 @@ public class Sensor extends javax.swing.JFrame {
     private void sliderTempStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderTempStateChanged
 
         temperature = sliderTemp.getValue();
-        temp.setText("" + temperature + " Â°C");
+        temp.setText("" + temperature + " °C");
 
         publishData();
     }//GEN-LAST:event_sliderTempStateChanged

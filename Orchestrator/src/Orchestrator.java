@@ -8,22 +8,24 @@
 
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 public class Orchestrator {
 	private final static String JARfolder = System.getProperty("user.home") + "\\Documents\\Ruscio\\OpenHAB\\OpenHAB\\";
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		String t = "java -jar ";
 		//Sensor
-		Runtime.getRuntime().exec(t+JARfolder + "Sensor.jar");
+		Runtime.getRuntime().exec(t + "Sensor.jar");
 		
 		//Monitoring
-		Runtime.getRuntime().exec(t+JARfolder + "Monitoring.jar"); //open forever
+		Runtime.getRuntime().exec(t + "Monitoring.jar"); //open forever
 		
 		//Execution
-		Runtime.getRuntime().exec(t+JARfolder + "Execution.jar");
+		Runtime.getRuntime().exec(t + "Execution.jar");
 		
 		//Analysis
-		Runtime.getRuntime().exec(t+JARfolder + "Analysis.jar"); //open forever
+		Runtime.getRuntime().exec(t + "Analysis.jar"); //open forever
 		
 		//Decision
 		//will execute automatically (OpenHAB). Expected it is already running

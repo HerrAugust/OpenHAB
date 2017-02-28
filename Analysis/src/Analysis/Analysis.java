@@ -28,6 +28,9 @@ public class Analysis {
     public static void main(String[] args) throws MqttException, InterruptedException {
     	System.out.println("Welcome in Analysis");
         Paho p = new Paho();
+        //needed not to send again and again the same symptom, allowing humans to open windows manually
+        //(in fact, if analysis sends continuously "GROWING DOWN.THR ABOVE" with HEA_KEEP_WARM, humans cannot open windows for rule conflict)
+        String oldTempSymptom = ""; 
         while (true) {
             //Version with file: File goal = new File(goalsfile);
             Storage s = new Storage();
@@ -86,11 +89,15 @@ public class Analysis {
                 if (windowsopen_done == false && date_beg.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
                     p.send("symptoms/windows", "GETTING TO DATE TO OPEN WINDOWS");
                     windowsopen_done = true;
+                    Thread.sleep(2000);
+                    p.send("symptoms/windows", ""); //without this, there could be future rules conflicts in Decision.rules
                 }
 
                 if (windowsclose_done == false && date_end.equals(new SimpleDateFormat("HH:mm").format(new Date()))) {
                     p.send("symptoms/windows", "GETTING TO DATE TO CLOSE WINDOWS");
                     windowsclose_done = true;
+                    Thread.sleep(2000);
+                    p.send("symptoms/windows", ""); //without this, there could be future rules conflicts in Decision.rules
                 }
             }
 
@@ -144,8 +151,9 @@ public class Analysis {
                 }
                 if (!temp.equals("")) //if temperature not stable
                 {
-                	if(threshold != 100) { //if temperature goal is set
+                	if(threshold != 100 && oldTempSymptom.equals(temp1) == false) { //if temperature goal is set
                 		p.send("symptoms/temperature", temp1);
+                		oldTempSymptom = temp1;
                 	}
                 }
             }
