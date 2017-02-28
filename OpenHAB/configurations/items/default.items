@@ -1,3 +1,8 @@
+Group Parameters_LivingRoom
+Group Parameters_Bathroom
+Group Parameters_Kitchen
+Group Parameters_SleepingRoom
+
 Number Electricity_Consumption 	{mqtt="<[mybroker:home/general/electricity:state:default]"}
 Number Humidity 				{mqtt="<[mybroker:home/general/humidity:state:default]"}
 Number Temperature				{mqtt="<[mybroker:home/general/temperature:state:default]"}

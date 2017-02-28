@@ -215,20 +215,23 @@ then
 	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " window: \" \"Bathroom_Windows_l1\"", 5000)
 end
 
-
+//...................................lights..................................................
 
 
 rule "Turn light on"
 when
+	Item LivingRoom_Lights_l1 received update or
 	Item LivingRoom_Lights_l1 changed
 then
-	logDebug("mylogs", "DIASJDIOSAJDOIASJDOIASJSelec_goal: " + electricity_goal + "; livingroomvoid: " + livingroomvoid)
-	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && !livingroomvoid) {}
+	logDebug("mylogs", "DIASJDIOSAJDOIASJDOIASJSelec_goal: " + electricity_goal + "; livingroomvoid: " + livingroomvoid + "; var state: " + LivingRoom_Lights_l1.state.toString)
+	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && livingroomvoid && LivingRoom_Lights_l1.state == ON) { 
+		postUpdate(LivingRoom_Lights_l1, OFF)	
+	}
 	else {
 	var String todo = "close"
 	logDebug("mylogs", "Turn light 1 on " + LivingRoom_Lights_l1.state )
 	if(LivingRoom_Lights_l1.state == ON) todo = "open"
-	logDebug("mylogs", "Turn light 1 on "+todo)
+	logDebug("mylogs", "Turn light 1 on rule. todo="+todo)
 	val results = executeCommandLine("java -jar StoreDecision.jar \"" + todo + " light: \" \"LivingRoom_Lights_l1\"", 5000)
 	logDebug("mylogs", results)
 	}
@@ -236,9 +239,12 @@ end
 
 rule "Turn light on"
 when
+	Item LivingRoom_Lights_l2 received update or
 	Item LivingRoom_Lights_l2 changed
 then
-	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && !livingroomvoid) {}
+	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && livingroomvoid && LivingRoom_Lights_l2.state == ON) { 
+		postUpdate(LivingRoom_Lights_l2, OFF)	
+	}
 	else {
 	var String todo = "close"
 	if(LivingRoom_Lights_l2.state == ON) todo = "open"
@@ -249,9 +255,12 @@ end
 
 rule "Turn light on"
 when
+	Item LivingRoom_Lights_l3 received update or
 	Item LivingRoom_Lights_l3 changed
 then
-	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && !livingroomvoid) {}
+	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && livingroomvoid && LivingRoom_Lights_l3.state == ON) { 
+		postUpdate(LivingRoom_Lights_l3, OFF)	
+	}
 	else {
 	var String todo = "close"
 	if(LivingRoom_Lights_l3.state == ON) todo = "open"
@@ -262,9 +271,12 @@ end
 
 rule "Turn light on"
 when
+	Item Kitchen_Lights_l1 received update or
 	Item Kitchen_Lights_l1 changed
 then
-	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && !kitchenvoid) {}
+	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && kitchenvoid && Kitchen_Lights_l1.state == ON) { 
+		postUpdate(Kitchen_Lights_l1, OFF)	
+	}
 	else {
 	var String todo = "close"
 	if(Kitchen_Lights_l1.state == ON) todo = "open"
@@ -274,9 +286,12 @@ end
 
 rule "Turn light on"
 when
+	Item Kitchen_Lights_l2 received update or
 	Item Kitchen_Lights_l2 changed
 then
-	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && !kitchenvoid) {}
+	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && kitchenvoid && Kitchen_Lights_l2.state == ON) { 
+		postUpdate(Kitchen_Lights_l2, OFF)	
+	}
 	else {
 	var String todo = "close"
 	if(Kitchen_Lights_l2.state == ON) todo = "open"
@@ -286,9 +301,12 @@ end
 
 rule "Turn light on"
 when
+	Item SleepingRoom_Lights_l1 received update or 
 	Item SleepingRoom_Lights_l1 changed
 then
-	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && !sleepingroomvoid) {}
+	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && sleepingroomvoid && SleepingRoom_Lights_l1.state == ON) { 
+		postUpdate(SleepingRoom_Lights_l1, OFF)	
+	}
 	else {
 	var String todo = "close"
 	if(SleepingRoom_Lights_l1.state == ON) todo = "open"
@@ -298,9 +316,12 @@ end
 
 rule "Turn light on"
 when
+	Item SleepingRoom_Lights_l2 received update or
 	Item SleepingRoom_Lights_l2 changed
 then
-	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && !sleepingroomvoid) {}
+	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && sleepingroomvoid && SleepingRoom_Lights_l2.state == ON) { 
+		postUpdate(SleepingRoom_Lights_l2, OFF)	
+	}
 	else {
 	var String todo = "close"
 	if(SleepingRoom_Lights_l2.state == ON) todo = "open"
@@ -310,9 +331,12 @@ end
 
 rule "Turn light on"
 when
+	Item BathRoom_Lights_l1 received update or
 	Item Bathroom_Lights_l1 changed
 then
-	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && !bathroomvoid) {}
+	if(electricity_goal != null && electricity_goal.equals("ELEC_MIN") && bathroomvoid && BathRoom_Lights_l1.state == ON) { 
+		postUpdate(BathRoom_Lights_l1, OFF)	
+	}
 	else {
 	var String todo = "close"
 	if(Bathroom_Lights_l1.state == ON) todo = "open"
