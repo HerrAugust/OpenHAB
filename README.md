@@ -8,7 +8,7 @@ Please notice that version 1.0.0 was tested with Windows 10 64 bit, OpenHAB 1.8.
 For installation, you will need to download OpenHAB 1.8.3 (available on the official website www.openhab.org) and the JARs+database available here https://www.dropbox.com/s/kkzno8r2prw7wqz/JARs%2Bdatabase_v1.0.0.7z?dl=0 . Of course, you can generate the executable JARs by using the source codes of Analysis, Monitoring, Sensor, Execution components available on this repository, but the database (file smarthome.sql) is still required and it is available in the link above. Moreover, once you download OpenHAB 1.8.3, you should replace the "configuration" folder with the one provided in this repository (actually, only Items, Sitemap and Rules folders are to be replaced; other files are 0K).
 
 #Documentation and installation
-Available here https://www.dropbox.com/s/dbi72175g3ws6iv/Report_AgostinoMascitti_KelwinPayares.pdf?dl=0 
+Available here https://www.dropbox.com/s/k5z0zxe8egro427/Report_AgostinoMascitti_KelwinPayares.pdf?dl=0
 
 #Contributors
 HerrAugust - agostino_aless@yahoo.it<br/>
